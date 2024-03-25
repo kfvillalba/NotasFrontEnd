@@ -15,7 +15,7 @@ const LogIn = () => {
   };
 
   return (
-    <div className="h-screen bg-gradient-to-tl from-green-400 to-indigo-900 w-full py-16 px-4">
+    <div className="h-screen bg-gradient-to-tl from-purple-dark to-indigo-900 w-screen py-16 px-4">
       <div className="flex flex-col items-center justify-center">
         {showRegisterForm ? (
           <RegisterForm handleShowAuthForm={handleShowAuthForm} />
