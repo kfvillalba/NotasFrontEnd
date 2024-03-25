@@ -3,9 +3,10 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./pages/HomePage.jsx";
-import Dashboard from "./pages/Dashboard.jsx";
 import PageNotFound from "./pages/PageNotFound.jsx";
 import LogIn from "./pages/LogIn.jsx";
+import PageProduct from "./pages/PageProduct.jsx";
+import DashboardPage from "./pages/DashboardPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -20,7 +21,12 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Dashboard />,
+    element: <DashboardPage />,
+    errorElement: <PageNotFound />,
+  },
+  {
+    path: "/productos",
+    element: <PageProduct />,
     errorElement: <PageNotFound />,
   },
 ]);

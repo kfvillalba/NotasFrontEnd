@@ -1,16 +1,12 @@
 import React from "react";
-import DashboardIcon from "../assets/DashboardIcon";
-import ClienteIcon from "../assets/ClienteIcon";
 
-const CardDashboard = ({ nombre }) => {
+const CardDashboard = ({ Logo, nombre, cantidad }) => {
   return (
-    <div className="border-2 rounded-lg border-purple-dark flex w-fit h-fit items-center hover:bg-purple-light hover:cursor-pointer">
-      <div>
-        <ClienteIcon clases={"w-32"} />
-      </div>
+    <div className=" rounded-lg border-purple-dark flex w-80 h-32 items-center hover:cursor-pointer shadow-md shadow-purple-light">
+      <div>{Logo}</div>
       <div className="mr-2">
         <h1>{nombre}</h1>
-        <p className="text-center">3</p>
+        <p className="text-center">{cantidad}</p>
       </div>
     </div>
   );
