@@ -12,6 +12,7 @@ const SideNavbar = () => {
   const Navigate = useNavigate();
   const Logout = () => {
     localStorage.clear();
+    console.log(localStorage);
     Navigate("/login");
   };
   return (

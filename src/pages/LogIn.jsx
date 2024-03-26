@@ -3,11 +3,12 @@ import { useState } from "react";
 import RegisterForm from "../components/RegisterForm";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { auth, googleProvider } from "../FireBaseConfig";
+import { auth, googleProvider, githutProvider, facebookProvider } from "../FireBaseConfig";
 import { signInWithPopup } from "firebase/auth";
+import GoogleIcon from "../assets/GoogleIcon"
 
 const LogIn = () => {
-  const [google, setGoogle] = useState("");
+  const [provider, setProvider] = useState("");
   const {
     register,
     handleSubmit,
@@ -32,16 +33,34 @@ const LogIn = () => {
 
   const logIngGoogle = () => {
     signInWithPopup(auth, googleProvider).then((data) => {
-      setGoogle(data.user.email);
+      setProvider(data.user.email);
       localStorage.setItem("email", data.user.email);
+      console.log(localStorage);
     });
   };
 
-  useEffect(() => {
-    setGoogle(localStorage.getItem("email"));
-  }, [google]);
+  const logIngGithub = () => {
+    signInWithPopup(auth, githutProvider).then((data) => {
+      setProvider(data.user.email);
+      localStorage.setItem("email", data.user.email);
+      console.log(localStorage);
+    });
+  };
 
-  return google ? (
+  const logIngFacebook = () => {
+    signInWithPopup(auth, facebookProvider).then((data) => {
+      setProvider(data.user.email);
+      localStorage.setItem("email", data.user.email);
+      console.log(localStorage);
+    });
+  };
+
+
+  useEffect(() => {
+    setProvider(localStorage.getItem("email"));
+  }, [provider]);
+
+  return provider ? (
     Navigate("/dashboard")
   ) : (
     <div className="h-screen bg-gradient-to-tl from-purple-dark to-indigo-900 w-full py-16 px-4">
@@ -68,6 +87,7 @@ const LogIn = () => {
               </p>
             </button>
             <button
+              onClick={logIngGithub}
               aria-label="Continua con Github"
               role="button"
               className="focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 flex items-center w-full mt-4"
@@ -90,6 +110,7 @@ const LogIn = () => {
               </p>
             </button>
             <button
+              onClick={logIngFacebook}
               aria-label="Continua con Facebook"
               role="button"
               className="focus:outline-none  focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 flex items-center w-full mt-4"

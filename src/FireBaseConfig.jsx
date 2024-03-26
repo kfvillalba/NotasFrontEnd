@@ -1,17 +1,19 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, GithubAuthProvider, FacebookAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD5fFUPJaSnQ9th8WfPf4qyR3_4Ay19sDE",
-  authDomain: "red-neuronal-1e524.firebaseapp.com",
-  projectId: "red-neuronal-1e524",
-  storageBucket: "red-neuronal-1e524.appspot.com",
-  messagingSenderId: "803155646658",
-  appId: "1:803155646658:web:7def7715add567f64c035b",
-  measurementId: "G-1DWT3H3CN4",
+  apiKey: "AIzaSyDwlXvqVCkb1F-254kO6uqqRQ1q4KuPUh8",
+  authDomain: "bd-pnotas.firebaseapp.com",
+  projectId: "bd-pnotas",
+  storageBucket: "bd-pnotas.appspot.com",
+  messagingSenderId: "715758211826",
+  appId: "1:715758211826:web:c16dd864c6dfba6dd7b66b",
+  measurementId: "G-7JLCN3K639"
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
-export { auth, googleProvider };
+const githutProvider = new GithubAuthProvider();
+const facebookProvider = new FacebookAuthProvider();
+export { auth, googleProvider, githutProvider, facebookProvider };
