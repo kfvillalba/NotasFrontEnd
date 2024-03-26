@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import DashboardIcon from "../assets/DashboardIcon";
-import { Link } from "react-router-dom";
-import ProveedoresIcon from "../assets/ProveedoresIcon";
+import { Link, useNavigate } from "react-router-dom";
 import ClienteIcon from "../assets/ClienteIcon";
 import ProductosIcon from "../assets/ProductosIcon";
 import ControlExistenciasIcon from "../assets/ControlExistenciasIcon";
@@ -10,6 +9,11 @@ import LogOutIcon from "../assets/LogOutIcon";
 import DropDown from "./DropDown";
 
 const SideNavbar = () => {
+  const Navigate = useNavigate();
+  const Logout = () => {
+    localStorage.clear();
+    Navigate("/login");
+  };
   return (
     <nav className="bg-purple-dark object-cover h-full text-gray-300 relative flex flex-col">
       <section className="flex-wrap">
@@ -76,12 +80,10 @@ const SideNavbar = () => {
         <footer className="mb-3 ">
           <ul>
             <li>
-              <Link to={"/login"}>
-                <button className="btn__menu">
-                  <LogOutIcon clases={"mr-3  size-7"} />
-                  LogOut
-                </button>
-              </Link>
+              <button onClick={Logout} className="btn__menu">
+                <LogOutIcon clases={"mr-3  size-7"} />
+                LogOut
+              </button>
             </li>
           </ul>
         </footer>
