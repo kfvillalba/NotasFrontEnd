@@ -1,19 +1,32 @@
-import React from "react";
-import { useForm } from "react-hook-form";
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { auth } from '../FireBaseConfig';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 const RegisterForm = ({ handleShowAuthForm }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
     watch,
   } = useForm();
 
-  console.log(errors);
+  const [registroExitoso, setRegistroExitoso] = useState(false);
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
+  const onSubmit = handleSubmit(async ({ email, password }) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      console.log('Usuario creado exitosamente:', userCredential.user);
+      setRegistroExitoso(true);
+      handleShowAuthForm();
+      //aqui falta muchachos si quieren enviar algun mensaje de registro exitoso o algo
+    } catch (error) {
+      console.error('Error al crear el usuario:', error);
+      setError('general', { type: 'manual', message: 'Error al registrar usuario' });
+    }
   });
+
 
   return (
     <div className="h-full w-full py-16 px-4">
@@ -26,7 +39,7 @@ const RegisterForm = ({ handleShowAuthForm }) => {
             Regístrate
           </p>
           <form onSubmit={onSubmit}>
-            <div className="mt-6">
+          <div className="mt-6">
               <label
                 htmlFor="username"
                 className="text-sm font-medium leading-none text-gray-800"
@@ -36,6 +49,7 @@ const RegisterForm = ({ handleShowAuthForm }) => {
               <input
                 //id="username"
                 type="text"
+                placeholder="Nombre de usuario"
                 className="bg-gray-200 border rounded text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
                 {...register("username", {
                   required: {
@@ -68,17 +82,15 @@ const RegisterForm = ({ handleShowAuthForm }) => {
                 Correo electrónico
               </label>
               <input
-                //id="email"
+                id="email"
                 type="email"
+                placeholder="Correo electrónico"
                 className="bg-gray-200 border rounded text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
                 {...register("email", {
-                  required: {
-                    value: true,
-                    message: "El correo es obligatorio",
-                  },
+                  required: "El correo es obligatorio",
                   pattern: {
                     value: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/,
-                    message: "El correo no es valido",
+                    message: "El correo no es válido",
                   },
                 })}
               />
@@ -99,43 +111,22 @@ const RegisterForm = ({ handleShowAuthForm }) => {
               </label>
               <div className="relative flex items-center justify-center">
                 <input
-                  //id="password"
+                  id="password"
                   type="password"
+                  placeholder="Contraseña"
                   className="bg-gray-200 border rounded text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
                   {...register("password", {
-                    required: {
-                      value: true,
-                      message: "La contraseña es obligatoria",
-                    },
+                    required: "La contraseña es obligatoria",
                     minLength: {
                       value: 6,
-                      message: "La contraseña debe tener minimo 3 caracteres",
-                    },
-                    maxLength: {
-                      value: 20,
-                      message: "La contraseña debe tener maximo 20 caracteres",
+                      message: "La contraseña debe tener al menos 6 caracteres",
                     },
                   })}
                 />
-                <div className="absolute right-0 mt-2 mr-3 cursor-pointer">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    {/* Icono de visibilidad de contraseña */}
-                  </svg>
-                </div>
               </div>
               {errors.password && (
                 <span
-                  style={{
-                    color: "red",
-                    fontSize: "0.8rem",
-                    display: "block",
-                  }}
+                  style={{ color: "red", fontSize: "0.8rem", display: "block" }}
                 >
                   {errors.password.message}
                 </span>
@@ -152,6 +143,7 @@ const RegisterForm = ({ handleShowAuthForm }) => {
                 <input
                   //id="password"
                   type="password"
+                  placeholder="Confirmar contraseña"
                   className="bg-gray-200 border rounded text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
                   {...register("confirmpassword", {
                     required: {
@@ -189,14 +181,12 @@ const RegisterForm = ({ handleShowAuthForm }) => {
             </div>
             <div className="mt-8">
               <button
-                role="button"
                 className="focus:ring-2 focus:ring-offset-2 focus:ring-gray-700 bg-gray-800 py-3 text-base font-medium rounded-lg w-full text-white"
                 type="submit"
               >
                 Registrarse
               </button>
             </div>
-            {/* Enlace para volver al formulario de inicio de sesión */}
             <div
               className="mt-4 text-sm text-gray-500 justify"
               style={{ textAlign: "center" }}
@@ -208,7 +198,6 @@ const RegisterForm = ({ handleShowAuthForm }) => {
               >
                 Iniciar sesión
               </button>
-              {/* <pre>{JSON.stringify(watch(), null, 2)}</pre> */}
             </div>
           </form>
         </div>
