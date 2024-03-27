@@ -3,8 +3,16 @@ import { useState } from "react";
 import RegisterForm from "../components/RegisterForm";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { auth, googleProvider } from "../FireBaseConfig";
-import { signInWithPopup } from "firebase/auth";
+import {
+  auth,
+  googleProvider,
+  githutProvider,
+  facebookProvider,
+} from "../FireBaseConfig";
+import { signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
+import GoogleIcon from "../assets/GoogleIcon";
+import FacebookIcon from "../assets/FacebookIcon";
+import GithubIcon from "../assets/GithubIcon";
 
 const LogIn = () => {
   const [provider, setProvider] = useState("");
@@ -42,7 +50,23 @@ const LogIn = () => {
 
   const logIngGoogle = () => {
     signInWithPopup(auth, googleProvider).then((data) => {
-      setGoogle(data.user.email);
+      setProvider(data.user.email);
+      localStorage.setItem("email", data.user.email);
+      console.log(localStorage);
+    });
+  };
+
+  const logIngGithub = () => {
+    signInWithPopup(auth, githutProvider).then((data) => {
+      setProvider(data.user.email);
+      localStorage.setItem("email", data.user.email);
+      console.log(localStorage);
+    });
+  };
+
+  const logIngFacebook = () => {
+    signInWithPopup(auth, facebookProvider).then((data) => {
+      setProvider(data.user.email);
       localStorage.setItem("email", data.user.email);
       console.log(localStorage);
     });

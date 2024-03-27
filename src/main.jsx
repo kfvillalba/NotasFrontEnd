@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import HomePage from "./pages/HomePage.jsx";
 import PageNotFound from "./pages/PageNotFound.jsx";
 import LogIn from "./pages/LogIn.jsx";
 import PageProduct from "./pages/PageProduct.jsx";
@@ -12,13 +11,13 @@ import PageCategorias from "./pages/PageCategorias.jsx";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <HomePage />,
+    path: "/login",
+    element: <LogIn />,
     errorElement: <PageNotFound />,
   },
   {
-    path: "/login",
-    element: <LogIn />,
+    path: "/",
+    element: <PageNotFound />,
     errorElement: <PageNotFound />,
   },
   {
