@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { auth, googleProvider } from "../FireBaseConfig";
 import { signInWithPopup } from "firebase/auth";
+import GoogleIcon from "../assets/GoogleIcon";
 
 const LogIn = () => {
   const [google, setGoogle] = useState("");
@@ -32,6 +33,7 @@ const LogIn = () => {
 
   const logIngGoogle = () => {
     signInWithPopup(auth, googleProvider).then((data) => {
+      console.log(data);
       setGoogle(data.user.email);
       localStorage.setItem("email", data.user.email);
     });

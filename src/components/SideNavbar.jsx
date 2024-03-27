@@ -34,7 +34,7 @@ const SideNavbar = () => {
         <h1 className="py-3 shadow-sm shadow-black">Navegación Principal</h1>
       </section>
       <section className="h-full [&>footer>ul>li]:mx-3 [&>header>ul>li]:mx-3 flex flex-col relative">
-        <header className="flex flex-col flex-grow shadow-sm shadow-black">
+        <header className="overflow-y-auto h-1 flex flex-col flex-grow shadow-sm shadow-black">
           <ul>
             <li>
               <Link to={"/dashboard"}>
@@ -44,7 +44,6 @@ const SideNavbar = () => {
                 </button>
               </Link>
             </li>
-
             <li>
               <Link to={"/clientes"}>
                 <button className="btn__menu">
@@ -77,7 +76,7 @@ const SideNavbar = () => {
             </li>
           </ul>
         </header>
-        <footer className="mb-3 ">
+        <footer className="my-1">
           <ul>
             <li>
               <button onClick={Logout} className="btn__menu">

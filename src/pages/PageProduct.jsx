@@ -1,5 +1,4 @@
 import React from "react";
-
 import PanelDivisor from "../components/PanelDivisor";
 
 const Page = () => {
