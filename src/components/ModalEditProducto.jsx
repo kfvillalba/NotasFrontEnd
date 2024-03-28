@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
-const ModalRegisterProducto = ({ open, onClose, registrar, categorias }) => {
+const ModalEditProducto = ({ open, onClose, editar, categorias }) => {
   const {
     register,
     handleSubmit,
@@ -10,7 +10,7 @@ const ModalRegisterProducto = ({ open, onClose, registrar, categorias }) => {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    registrar(data);
+    editar(data);
     onClose();
     reset();
     Swal.fire({
@@ -30,7 +30,7 @@ const ModalRegisterProducto = ({ open, onClose, registrar, categorias }) => {
         >
           <div>
             <label htmlFor="categoria" className="label__form">
-              Seleccione Una Categoria
+              Categorias
             </label>
             <select
               id="categoria"
@@ -107,4 +107,4 @@ const ModalRegisterProducto = ({ open, onClose, registrar, categorias }) => {
   );
 };
 
-export default ModalRegisterProducto;
+export default ModalEditProducto;

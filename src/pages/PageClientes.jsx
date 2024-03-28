@@ -2,25 +2,25 @@ import React, { useState } from "react";
 import PanelDivisor from "../components/PanelDivisor";
 import DeleteIcon from "../assets/DeleteIcon";
 import EditIcon from "../assets/EditIcon";
-import ModalRegisterProveedores from "../components/ModalRegisterProveedores";
-import ModalEditProveedores from "../components/ModalEditProveedores";
+import ModalRegisterClientes from "../components/ModalRegisterClientes";
+import ModalEditClientes from "../components/ModalEditClientes";
 import Swal from "sweetalert2";
 
 const Page = () => {
-  const [proveedores, setProveedores] = useState([
+  const [clientes, setclientes] = useState([
     {
       id: "1112",
-      nombre: "Jeison",
-      correo: "jeison@gmail",
+      nombre: "Kevin",
+      correo: "kevin@gmail",
       telefono: "3154434562",
-      direccion: "La playa de barranquilla",
+      direccion: "Mi casa al lado del vecino",
     },
   ]);
 
   const [formRegister, setformRegister] = useState(false);
   const [formEdit, setformEdit] = useState(false);
 
-  const eliminarProveedores = () => {
+  const eliminarclientes = () => {
     Swal.fire({
       title: "¿Estas seguro?",
       text: "No podra deshacer este cambio!",
@@ -42,19 +42,19 @@ const Page = () => {
 
   return (
     <>
-      <ModalRegisterProveedores
+      <ModalRegisterClientes
         open={formRegister}
         onClose={() => {
           setformRegister(false);
         }}
         registrar={(dataForm) => {
           console.log(dataForm);
-          setProveedores([...proveedores, dataForm]);
+          setclientes([...clientes, dataForm]);
           //aca logica
         }}
       />
       {
-        <ModalEditProveedores
+        <ModalEditClientes
           open={formEdit}
           onClose={() => {
             setformEdit(false);
@@ -66,25 +66,21 @@ const Page = () => {
         />
       }
       <div className="p-5  shadow-md rounded-sm shadow-black h-full">
-        <h3>Lista proveedores</h3>
+        <h3>Lista clientes</h3>
         <section>
           <button
             onClick={() => setformRegister(true)}
             className="bnt__primary"
           >
-            Agregar proveedores
+            Agregar clientes
           </button>
         </section>
 
         <section className="flex flex-col my-5">
-          <label className="label__form" htmlFor="textBuscarProveedores">
-            Buscar Proveedores
+          <label className="label__form" htmlFor="textBuscarclientes">
+            Buscar clientes
           </label>
-          <input
-            className="input__form"
-            id="textBuscarProveedores"
-            type="text"
-          />
+          <input className="input__form" id="textBuscarclientes" type="text" />
         </section>
 
         <div className="h-3/4 overflow-y-auto snap-y shadow-sm shadow-black rounded-sm">
@@ -100,7 +96,7 @@ const Page = () => {
               </tr>
             </thead>
             <tbody>
-              {proveedores.map((proveedor, index) => {
+              {clientes.map((proveedor, index) => {
                 return (
                   <tr className="even:bg-slate-100" key={index}>
                     <td className="pl-3">{proveedor.nombre}</td>
@@ -113,7 +109,7 @@ const Page = () => {
                       </button>
                     </td>
                     <td className="text-center text-red-800">
-                      <button onClick={eliminarProveedores}>
+                      <button onClick={eliminarclientes}>
                         <DeleteIcon clases={"size-7 cursor-pointer"} />
                       </button>
                     </td>
@@ -127,8 +123,8 @@ const Page = () => {
     </>
   );
 };
-const PageProveedores = () => {
+const Pageclientes = () => {
   return <PanelDivisor Page={<Page />} />;
 };
 
-export default PageProveedores;
+export default Pageclientes;

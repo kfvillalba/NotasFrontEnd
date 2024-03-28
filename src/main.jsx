@@ -8,16 +8,17 @@ import PageProduct from "./pages/PageProduct.jsx";
 import DashboardPage from "./pages/DashboardPage.jsx";
 import PageProveedores from "./pages/PageProveedores.jsx";
 import PageCategorias from "./pages/PageCategorias.jsx";
+import PageClientes from "./pages/PageClientes.jsx";
 
 const router = createBrowserRouter([
   {
-    path: "/login",
-    element: <LogIn />,
+    path: "/",
+    element: <PageNotFound />,
     errorElement: <PageNotFound />,
   },
   {
-    path: "/",
-    element: <PageNotFound />,
+    path: "/login",
+    element: <LogIn />,
     errorElement: <PageNotFound />,
   },
   {
@@ -38,6 +39,11 @@ const router = createBrowserRouter([
   {
     path: "/proveedores",
     element: <PageProveedores />,
+    errorElement: <PageNotFound />,
+  },
+  {
+    path: "/clientes",
+    element: <PageClientes />,
     errorElement: <PageNotFound />,
   },
 ]);

@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
-const ModalRegisterProducto = ({ open, onClose, registrar, categorias }) => {
+const ModalRegisterProveedores = ({ open, onClose, registrar }) => {
   const {
     register,
     handleSubmit,
@@ -15,7 +15,7 @@ const ModalRegisterProducto = ({ open, onClose, registrar, categorias }) => {
     reset();
     Swal.fire({
       icon: "success",
-      title: "Producto guardado",
+      title: "Categoria guardada",
       showConfirmButton: false,
       timer: 1500,
     });
@@ -29,34 +29,8 @@ const ModalRegisterProducto = ({ open, onClose, registrar, categorias }) => {
           onSubmit={handleSubmit(onSubmit)}
         >
           <div>
-            <label htmlFor="categoria" className="label__form">
-              Seleccione Una Categoria
-            </label>
-            <select
-              id="categoria"
-              type="text"
-              className="input__form"
-              {...register("categoria", {
-                required: {
-                  value: true,
-                  message: "La categoria es obligatoria",
-                },
-              })}
-            >
-              <option value="-1">Seleccione Una Categoria</option>
-              {categorias.map((categoria) => {
-                return (
-                  <option key={categoria.id} value={`${categoria.nombre}`}>
-                    {categoria.nombre}
-                  </option>
-                );
-              })}
-            </select>
-            <span className="message">{errors?.categoria?.message}</span>
-          </div>
-          <div>
             <label htmlFor="nombre" className="label__form">
-              Nombre de la categoria
+              Nombre del Proveedor
             </label>
             <input
               id="nombre"
@@ -72,21 +46,55 @@ const ModalRegisterProducto = ({ open, onClose, registrar, categorias }) => {
             <span className="message">{errors?.nombre?.message}</span>
           </div>
           <div>
-            <label htmlFor="descripcion" className="label__form">
-              Descripcion de la categoria
+            <label htmlFor="correo" className="label__form">
+              Correo del Proveedor
             </label>
             <input
-              id="descripcion"
+              id="correo"
               type="text"
               className="input__form"
-              {...register("descripcion", {
+              {...register("correo", {
                 required: {
                   value: true,
-                  message: "La descripcion es obligatoria",
+                  message: "El correo es obligatorio",
                 },
               })}
             />
-            <span className="message">{errors?.descripcion?.message}</span>
+            <span className="message">{errors?.correo?.message}</span>
+          </div>
+          <div>
+            <label htmlFor="telefono" className="label__form">
+              Telefono del Proveedor
+            </label>
+            <input
+              id="telefono"
+              type="text"
+              className="input__form"
+              {...register("telefono", {
+                required: {
+                  value: true,
+                  message: "El telefono es obligatorio",
+                },
+              })}
+            />
+            <span className="message">{errors?.telefono?.message}</span>
+          </div>
+          <div>
+            <label htmlFor="direccion" className="label__form">
+              Direccion del Proveedor
+            </label>
+            <input
+              id="direccion"
+              type="text"
+              className="input__form"
+              {...register("direccion", {
+                required: {
+                  value: true,
+                  message: "La direccion es obligatorio",
+                },
+              })}
+            />
+            <span className="message">{errors?.direccion?.message}</span>
           </div>
           <div className="flex gap-4 justify-center">
             <button type="submit" className="bnt__primary mt-3">
@@ -107,4 +115,4 @@ const ModalRegisterProducto = ({ open, onClose, registrar, categorias }) => {
   );
 };
 
-export default ModalRegisterProducto;
+export default ModalRegisterProveedores;
