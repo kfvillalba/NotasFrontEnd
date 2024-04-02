@@ -13,12 +13,20 @@ const Page = () => {
     fetch('https://localhost:7127/api/Clientes/Consultar')
       .then((responde) => responde.json())
       .then((clientes) => setclientes(clientes))
-  }, [clientes])
+  }, [])
 
   const [formRegister, setformRegister] = useState(false)
   const [formEdit, setformEdit] = useState(false)
 
-  const eliminarclientes = () => {
+  const [dataCliente, setDataCliente] = useState({
+    id: '',
+    nombre: '',
+    celular: '',
+    correo: '',
+  })
+
+  const eliminarClientes = (event, id) => {
+    event.preventDefault()
     Swal.fire({
       title: '¿Estas seguro?',
       text: 'No podra deshacer este cambio!',
@@ -26,16 +34,42 @@ const Page = () => {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, Borralo!',
-    }).then((result) => {
+      confirmButtonText: 'Si, Bórralo!',
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        Swal.fire({
-          title: 'Borrado!',
-          text: 'Se ha borrado con exito',
-          icon: 'success',
-        })
+        try {
+          const response = await fetch(
+            `https://localhost:7127/api/Clientes/Eliminar?id=${id}`,
+            {
+              method: 'DELETE',
+            }
+          )
+
+          if (response.ok) {
+            Swal.fire({
+              title: 'Borrado!',
+              text: 'Se ha borrado con éxito',
+              icon: 'success',
+            })
+          } else {
+            throw new Error('Error al intentar borrar la categoría')
+          }
+        } catch (error) {
+          console.error(error)
+          Swal.fire({
+            icon: 'error',
+            title: 'Error al borrar la categoría',
+            text: error.message,
+          })
+        }
       }
     })
+  }
+
+  const editarCliente = (event, id, nombre, celular, correo) => {
+    event.preventDefault()
+    setDataCliente({ id, nombre, celular, correo })
+    setformEdit(true)
   }
 
   return (
@@ -54,6 +88,7 @@ const Page = () => {
       {
         <ModalEditClientes
           open={formEdit}
+          dataCliente={dataCliente}
           onClose={() => {
             setformEdit(false)
           }}
@@ -100,12 +135,26 @@ const Page = () => {
                     <td className='pl-3'>{clientes.celular}</td>
                     <td className='pl-3'>{clientes.correo}</td>
                     <td className='text-center text-blue-800'>
-                      <button onClick={() => setformEdit(true)}>
+                      <button
+                        onClick={(event) =>
+                          editarCliente(
+                            event,
+                            clientes.id,
+                            clientes.nombre,
+                            clientes.celular,
+                            clientes.correo
+                          )
+                        }
+                      >
                         <EditIcon clases={'size-7 cursor-pointer'} />
                       </button>
                     </td>
                     <td className='text-center text-red-800'>
-                      <button onClick={eliminarclientes}>
+                      <button
+                        onClick={(event) =>
+                          eliminarClientes(event, clientes.id)
+                        }
+                      >
                         <DeleteIcon clases={'size-7 cursor-pointer'} />
                       </button>
                     </td>

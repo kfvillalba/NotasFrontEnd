@@ -10,16 +10,40 @@ const ModalEditCategoria = ({ open, onClose, editar, dataCategoria }) => {
     formState: { errors },
   } = useForm()
 
-  const onSubmit = (data) => {
-    editar(data)
-    onClose()
-    reset()
-    Swal.fire({
-      icon: 'success',
-      title: 'Categoria guardada',
-      showConfirmButton: false,
-      timer: 1500,
-    })
+  const onSubmit = async (data) => {
+    try {
+      const response = await fetch(
+        `https://localhost:7127/api/Categorias/Actualizar?id=${dataCategoria.id}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        }
+      )
+
+      if (response.ok) {
+        editar(data)
+        onClose()
+        reset()
+        Swal.fire({
+          icon: 'success',
+          title: 'Categoria editada con exito',
+          showConfirmButton: false,
+          timer: 1500,
+        })
+      } else {
+        throw new Error('Error al guardar la categoría')
+      }
+    } catch (error) {
+      console.error(error)
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al guardar la categoría',
+        text: error.message,
+      })
+    }
   }
   if (!open) return null
   return (

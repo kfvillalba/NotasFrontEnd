@@ -13,14 +13,15 @@ const Page = () => {
     fetch('https://localhost:7127/api/Categorias/Consultar')
       .then((responde) => responde.json())
       .then((data) => setData(data))
-  }, [data])
+  }, [])
 
   const [formRegister, setformRegister] = useState(false)
   const [formEdit, setformEdit] = useState(false)
 
   const [dataCategoria, setDataCategoria] = useState({ id: '', nombre: '' })
 
-  const eliminarCategoria = () => {
+  const eliminarCategoria = (event, id) => {
+    event.preventDefault()
     Swal.fire({
       title: '¿Estas seguro?',
       text: 'No podra deshacer este cambio!',
@@ -28,14 +29,34 @@ const Page = () => {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, Borralo!',
-    }).then((result) => {
+      confirmButtonText: 'Si, Bórralo!',
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        Swal.fire({
-          title: 'Borrado!',
-          text: 'Se ha borrado con exito',
-          icon: 'success',
-        })
+        try {
+          const response = await fetch(
+            `https://localhost:7127/api/Categorias/Eliminar?id=${id}`,
+            {
+              method: 'DELETE',
+            }
+          )
+
+          if (response.ok) {
+            Swal.fire({
+              title: 'Borrado!',
+              text: 'Se ha borrado con éxito',
+              icon: 'success',
+            })
+          } else {
+            throw new Error('Error al intentar borrar la categoría')
+          }
+        } catch (error) {
+          console.error(error)
+          Swal.fire({
+            icon: 'error',
+            title: 'Error al borrar la categoría',
+            text: error.message,
+          })
+        }
       }
     })
   }
@@ -110,7 +131,11 @@ const Page = () => {
                       </button>
                     </td>
                     <td className='text-center text-red-800'>
-                      <button onClick={eliminarCategoria}>
+                      <button
+                        onClick={(event) =>
+                          eliminarCategoria(event, categoria.id)
+                        }
+                      >
                         <DeleteIcon clases={'size-7 cursor-pointer'} />
                       </button>
                     </td>

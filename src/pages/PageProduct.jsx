@@ -15,26 +15,34 @@ const Page = () => {
     fetch('https://localhost:7127/api/Productos/Consultar')
       .then((responde) => responde.json())
       .then((productos) => setProductos(productos))
-  }, [productos, categorias])
+  }, [productos])
 
-  // useEffect(() => {
-  //   fetch('https://localhost:7127/api/Categorias/Consultar')
-  //     .then((responde) => responde.json())
-  //     .then((categorias) => setCategorias(categorias))
-  // })
+  useEffect(() => {
+    fetch('https://localhost:7127/api/Categorias/Consultar')
+      .then((responde) => responde.json())
+      .then((categorias) => setCategorias(categorias))
+  }, [categorias])
 
-  // const getCategoriaPorId = (idCategoria) => {
-  //   // Suponiendo que categorias es un array que contiene objetos con la estructura { id, nombre }
-  //   const categoriaEncontrada = categorias.find(
-  //     (categoria) => categoria.id === idCategoria
-  //   )
-  //   return categoriaEncontrada ? categoriaEncontrada.nombre : 'Sin categoría'
-  // }
+  const getCategoriaPorId = (idCategoria) => {
+    // Suponiendo que categorias es un array que contiene objetos con la estructura { id, nombre }
+    const categoriaEncontrada = categorias.find(
+      (categoria) => categoria.id === idCategoria
+    )
+    return categoriaEncontrada ? categoriaEncontrada.nombre : 'Sin categoría'
+  }
 
   const [formRegister, setformRegister] = useState(false)
   const [formEdit, setformEdit] = useState(false)
 
-  const eliminarProducto = () => {
+  const [dataProducto, setDataProducto] = useState({
+    id: '',
+    nombre: '',
+    descripcion: '',
+    idCategoria: '',
+  })
+
+  const eliminarProducto = (event, id) => {
+    event.preventDefault()
     Swal.fire({
       title: '¿Estas seguro?',
       text: 'No podra deshacer este cambio!',
@@ -42,16 +50,42 @@ const Page = () => {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, Borralo!',
-    }).then((result) => {
+      confirmButtonText: 'Si, Bórralo!',
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        Swal.fire({
-          title: 'Borrado!',
-          text: 'Se ha borrado con exito',
-          icon: 'success',
-        })
+        try {
+          const response = await fetch(
+            `https://localhost:7127/api/Productos/Eliminar?id=${id}`,
+            {
+              method: 'DELETE',
+            }
+          )
+
+          if (response.ok) {
+            Swal.fire({
+              title: 'Borrado!',
+              text: 'Se ha borrado con éxito',
+              icon: 'success',
+            })
+          } else {
+            throw new Error('Error al intentar borrar la categoría')
+          }
+        } catch (error) {
+          console.error(error)
+          Swal.fire({
+            icon: 'error',
+            title: 'Error al borrar la categoría',
+            text: error.message,
+          })
+        }
       }
     })
+  }
+
+  const editarProducto = (event, id, nombre, descripcion, idCategoria) => {
+    event.preventDefault()
+    setDataProducto({ id, nombre, descripcion, idCategoria })
+    setformEdit(true)
   }
 
   return (
@@ -70,6 +104,7 @@ const Page = () => {
       />
       <ModalEditProducto
         open={formEdit}
+        dataProducto={dataProducto}
         onClose={() => {
           setformEdit(false)
         }}
@@ -112,16 +147,32 @@ const Page = () => {
               {productos?.map((producto, index) => {
                 return (
                   <tr className='even:bg-slate-100' key={index}>
-                    <td className='pl-3'>{producto.idCategoria}</td>
+                    <td className='pl-3'>
+                      {getCategoriaPorId(producto.idCategoria)}
+                    </td>
                     <td className='pl-3'>{producto.nombre}</td>
                     <td className='pl-3'>{producto.descripcion}</td>
                     <td className='text-center text-blue-800'>
-                      <button onClick={() => setformEdit(true)}>
+                      <button
+                        onClick={(event) =>
+                          editarProducto(
+                            event,
+                            producto.id,
+                            producto.nombre,
+                            producto.descripcion,
+                            producto.idCategoria
+                          )
+                        }
+                      >
                         <EditIcon clases={'size-7 cursor-pointer'} />
                       </button>
                     </td>
                     <td className='text-center text-red-800'>
-                      <button onClick={eliminarProducto}>
+                      <button
+                        onClick={(event) =>
+                          eliminarProducto(event, producto.id)
+                        }
+                      >
                         <DeleteIcon clases={'size-7 cursor-pointer'} />
                       </button>
                     </td>

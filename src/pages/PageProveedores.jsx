@@ -13,12 +13,20 @@ const Page = () => {
     fetch('https://localhost:7127/api/Proveerdors/Consultar')
       .then((responde) => responde.json())
       .then((proveedores) => setProveedores(proveedores))
-  }, [proveedores])
+  }, [])
 
   const [formRegister, setformRegister] = useState(false)
   const [formEdit, setformEdit] = useState(false)
 
-  const eliminarProveedores = () => {
+  const [dataProveedor, setDataProveedor] = useState({
+    id: '',
+    nombre: '',
+    celular: '',
+    correo: '',
+  })
+
+  const eliminarProveedores = (event, id) => {
+    event.preventDefault()
     Swal.fire({
       title: '¿Estas seguro?',
       text: 'No podra deshacer este cambio!',
@@ -26,16 +34,42 @@ const Page = () => {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, Borralo!',
-    }).then((result) => {
+      confirmButtonText: 'Si, Bórralo!',
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        Swal.fire({
-          title: 'Borrado!',
-          text: 'Se ha borrado con exito',
-          icon: 'success',
-        })
+        try {
+          const response = await fetch(
+            `https://localhost:7127/api/Proveerdors/Eliminar?id=${id}`,
+            {
+              method: 'DELETE',
+            }
+          )
+
+          if (response.ok) {
+            Swal.fire({
+              title: 'Borrado!',
+              text: 'Se ha borrado con éxito',
+              icon: 'success',
+            })
+          } else {
+            throw new Error('Error al intentar borrar la categoría')
+          }
+        } catch (error) {
+          console.error(error)
+          Swal.fire({
+            icon: 'error',
+            title: 'Error al borrar la categoría',
+            text: error.message,
+          })
+        }
       }
     })
+  }
+
+  const editarProveedor = (event, id, nombre, celular, correo) => {
+    event.preventDefault()
+    setDataProveedor({ id, nombre, celular, correo })
+    setformEdit(true)
   }
 
   return (
@@ -54,6 +88,7 @@ const Page = () => {
       {
         <ModalEditProveedores
           open={formEdit}
+          dataProveedor={dataProveedor}
           onClose={() => {
             setformEdit(false)
           }}
@@ -106,12 +141,26 @@ const Page = () => {
                     <td className='pl-3'>{proveedor.celular}</td>
                     <td className='pl-3'>{proveedor.direccion}</td>
                     <td className='text-center text-blue-800'>
-                      <button onClick={() => setformEdit(true)}>
+                      <button
+                        onClick={(event) =>
+                          editarProveedor(
+                            event,
+                            proveedor.id,
+                            proveedor.nombre,
+                            proveedor.celular,
+                            proveedor.correo
+                          )
+                        }
+                      >
                         <EditIcon clases={'size-7 cursor-pointer'} />
                       </button>
                     </td>
                     <td className='text-center text-red-800'>
-                      <button onClick={eliminarProveedores}>
+                      <button
+                        onClick={(event) =>
+                          eliminarProveedores(event, proveedor.id)
+                        }
+                      >
                         <DeleteIcon clases={'size-7 cursor-pointer'} />
                       </button>
                     </td>
