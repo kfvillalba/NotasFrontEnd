@@ -13,7 +13,7 @@ const Page = () => {
     fetch('https://localhost:7127/api/Categorias/Consultar')
       .then((responde) => responde.json())
       .then((data) => setData(data))
-  }, [])
+  }, [data])
 
   const [formRegister, setformRegister] = useState(false)
   const [formEdit, setformEdit] = useState(false)

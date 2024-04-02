@@ -13,7 +13,7 @@ const Page = () => {
     fetch('https://localhost:7127/api/Clientes/Consultar')
       .then((responde) => responde.json())
       .then((clientes) => setclientes(clientes))
-  }, [])
+  }, [clientes])
 
   const [formRegister, setformRegister] = useState(false)
   const [formEdit, setformEdit] = useState(false)
