@@ -76,6 +76,7 @@ const ModalEditProveedores = ({ open, onClose, editar, dataProveedor }) => {
             </label>
             <input
               id="celular"
+              defaultValue={`${dataProveedor.celular}`}
               type="text"
               className="input__form"
               {...register("celular", {
@@ -85,11 +86,11 @@ const ModalEditProveedores = ({ open, onClose, editar, dataProveedor }) => {
                 },
                 minLength: {
                   value: 10,
-                  message: "El numero debe tener 10 Numeros",
+                  message: "El telefono debe tener 10 Numeros",
                 },
                 maxLength: {
                   value: 10,
-                  message: "El numero debe tener 10 Numeros",
+                  message: "El telefono debe tener 10 Numeros",
                 },
               })}
             />
@@ -102,7 +103,7 @@ const ModalEditProveedores = ({ open, onClose, editar, dataProveedor }) => {
             <input
               id="correo"
               type="email"
-              placeholder="Correo electrónico"
+              defaultValue={`${dataProveedor.correo}`}
               className="bg-gray-200 border rounded text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
               {...register("correo", {
                 required: {

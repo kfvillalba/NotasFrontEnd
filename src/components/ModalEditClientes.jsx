@@ -77,6 +77,7 @@ const ModalEditClientes = ({ open, onClose, editar, dataCliente }) => {
             <input
               id="celular"
               type="text"
+              defaultValue={`${dataCliente.celular}`}
               className="input__form"
               {...register("celular", {
                 required: {
@@ -85,15 +86,15 @@ const ModalEditClientes = ({ open, onClose, editar, dataCliente }) => {
                 },
                 minLength: {
                   value: 10,
-                  message: "El numero debe tener 10 Numeros",
+                  message: "El telefono debe tener 10 Numeros",
                 },
                 maxLength: {
                   value: 10,
-                  message: "El numero debe tener 10 Numeros",
+                  message: "El telefono debe tener 10 Numeros",
                 },
               })}
             />
-            <span className="message">{errors?.telefono?.message}</span>
+            <span className="message">{errors?.celular?.message}</span>
           </div>
           <div>
             <label htmlFor="correo" className="label__form">
@@ -102,7 +103,7 @@ const ModalEditClientes = ({ open, onClose, editar, dataCliente }) => {
             <input
               id="correo"
               type="email"
-              placeholder="Correo electrónico"
+              defaultValue={`${dataCliente.correo}`}
               className="bg-gray-200 border rounded text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
               {...register("correo", {
                 required: {

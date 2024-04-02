@@ -85,11 +85,11 @@ const ModalRegisterProveedores = ({ open, onClose, registrar }) => {
                 },
                 minLength: {
                   value: 10,
-                  message: "El numero debe tener 10 Numeros",
+                  message: "El telefono debe tener 10 Numeros",
                 },
                 maxLength: {
                   value: 10,
-                  message: "El numero debe tener 10 Numeros",
+                  message: "El telefono debe tener 10 Numeros",
                 },
               })}
             />
@@ -102,7 +102,6 @@ const ModalRegisterProveedores = ({ open, onClose, registrar }) => {
           <input
             id="correo"
             type="email"
-            placeholder="Correo electrónico"
             className="bg-gray-200 border rounded text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
             {...register("correo", {
               required: {

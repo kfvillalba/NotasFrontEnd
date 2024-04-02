@@ -85,11 +85,11 @@ const ModalRegisterClientes = ({ open, onClose, registrar }) => {
                 },
                 minLength: {
                   value: 10,
-                  message: "El numero debe tener 10 Numeros",
+                  message: "El telefono debe tener 10 Numeros",
                 },
                 maxLength: {
                   value: 10,
-                  message: "El numero debe tener 10 Numeros",
+                  message: "El telefono debe tener 10 Numeros",
                 },
               })}
             />
