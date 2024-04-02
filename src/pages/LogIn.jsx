@@ -38,12 +38,16 @@ const LogIn = () => {
     setShowRegisterForm(false);
   };
 
-  //probar
+  const obtenerUsuario = (displayName, email, photoURL) => {
+    localStorage.setItem("email", email);
+    localStorage.setItem("displayName", displayName);
+    localStorage.setItem("photoURL", photoURL);
+  };
 
   const logIngEmailPassword = () => {
     signInWithEmailAndPassword(auth, email, password).then((data) => {
       setProvider(data.user.email);
-      localStorage.setItem("email", data.user.email);
+      obtenerUsuario(data.user.displayName, data.user.email);
       console.log(localStorage);
     });
   };
@@ -51,15 +55,20 @@ const LogIn = () => {
   const logIngGoogle = () => {
     signInWithPopup(auth, googleProvider).then((data) => {
       setProvider(data.user.email);
-      localStorage.setItem("email", data.user.email);
+      obtenerUsuario(
+        data.user.displayName,
+        data.user.email,
+        data.user.photoURL
+      );
       console.log(localStorage);
+      console.log(data.user);
     });
   };
 
   const logIngGithub = () => {
     signInWithPopup(auth, githutProvider).then((data) => {
       setProvider(data.user.email);
-      localStorage.setItem("email", data.user.email);
+      obtenerUsuario(data.user.displayName, data.user.email);
       console.log(localStorage);
     });
   };
@@ -67,7 +76,7 @@ const LogIn = () => {
   const logIngFacebook = () => {
     signInWithPopup(auth, facebookProvider).then((data) => {
       setProvider(data.user.email);
-      localStorage.setItem("email", data.user.email);
+      obtenerUsuario(data.user.displayName, data.user.email);
       console.log(localStorage);
     });
   };

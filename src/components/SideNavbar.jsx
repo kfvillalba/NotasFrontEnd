@@ -24,12 +24,13 @@ const SideNavbar = () => {
         <header className="Profile flex flex-wrap items-center p-5  shadow-sm shadow-black ">
           <img
             className="rounded-full shadow-sm shadow-white"
-            src="https://placehold.co/64"
+            src={localStorage.getItem("photoURL")}
             alt="avatar"
+            style={{ width: "64px", height: "64px" }}
           />
           <div className="ml-3">
-            <p className="text-lg">Kevin Villalba</p>
-            <p className="text-sm">kevinvillalba@gmail.com</p>
+            <p className="text-lg">{localStorage.getItem("displayName")}</p>
+            <p className="text-sm">{localStorage.getItem("email")}</p>
           </div>
         </header>
         <h1 className="py-3 shadow-sm shadow-black">Navegación Principal</h1>
