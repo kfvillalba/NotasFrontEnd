@@ -29,7 +29,7 @@ const ModalRegisterProveedores = ({ open, onClose, registrar }) => {
         reset()
         Swal.fire({
           icon: 'success',
-          title: 'Cliente guardado',
+          title: 'Proveedor guardado',
           showConfirmButton: false,
           timer: 1500,
         })
@@ -40,7 +40,7 @@ const ModalRegisterProveedores = ({ open, onClose, registrar }) => {
       console.error(error)
       Swal.fire({
         icon: 'error',
-        title: 'Error al guardar el cliente',
+        title: 'Error al guardar al proveedor',
         text: error.message,
       })
     }

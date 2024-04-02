@@ -58,7 +58,7 @@ const Page = () => {
           console.error(error)
           Swal.fire({
             icon: 'error',
-            title: 'Error al borrar la categoría',
+            title: 'Error al borrar el cliente',
             text: error.message,
           })
         }

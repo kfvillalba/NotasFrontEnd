@@ -28,7 +28,7 @@ const ModalEditProveedores = ({ open, onClose, editar, dataProveedor }) => {
         reset()
         Swal.fire({
           icon: 'success',
-          title: 'Categoria editada con exito',
+          title: 'Proveedor editado con exito',
           showConfirmButton: false,
           timer: 1500,
         })
@@ -39,7 +39,7 @@ const ModalEditProveedores = ({ open, onClose, editar, dataProveedor }) => {
       console.error(error)
       Swal.fire({
         icon: 'error',
-        title: 'Error al guardar la categoría',
+        title: 'Error al guardar el proveedor',
         text: error.message,
       })
     }

@@ -35,18 +35,18 @@ const ModalEditProducto = ({
         reset()
         Swal.fire({
           icon: 'success',
-          title: 'Categoria editada con exito',
+          title: 'Producto editado con exito',
           showConfirmButton: false,
           timer: 1500,
         })
       } else {
-        throw new Error('Error al guardar la categoría')
+        throw new Error('Error al guardar el producto')
       }
     } catch (error) {
       console.error(error)
       Swal.fire({
         icon: 'error',
-        title: 'Error al guardar la categoría',
+        title: 'Error al guardar el producto',
         text: error.message,
       })
     }
