@@ -4,6 +4,7 @@ import PanelDivisor from '../components/PanelDivisor'
 import ClienteIcon from '../assets/ClienteIcon'
 import ProveedoresIcon from '../assets/ProveedoresIcon'
 import ProductosIcon from '../assets/ProductosIcon'
+import CategoriasIcon from '../assets/CategoriasIcon'
 
 const Page = () => {
   return (
@@ -22,6 +23,11 @@ const Page = () => {
         nombre={'Proveedores'}
         cantidad={3}
         Logo={<ProveedoresIcon clases={'size-32'} />}
+      />
+      <CardDashboard
+        nombre={'Categorias'}
+        cantidad={3}
+        Logo={<CategoriasIcon clases={'size-32'} />}
       />
     </section>
   )
