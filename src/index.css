@@ -37,6 +37,9 @@
   .table {
     border: 1px solid #424242;
   }
+  .btn__menu__active {
+    @apply rounded-lg w-full [&>svg]:text-white bg-purple-light  [&>svg]:hover:text-white hover:bg-purple-light py-2 my-1 hover:text-white pl-4 text-start;
+  }
 
   .tr {
     display: flex;

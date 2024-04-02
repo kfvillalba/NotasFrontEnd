@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import DashboardIcon from "../assets/DashboardIcon";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import ClienteIcon from "../assets/ClienteIcon";
 import ProductosIcon from "../assets/ProductosIcon";
 import ControlExistenciasIcon from "../assets/ControlExistenciasIcon";
@@ -38,20 +38,38 @@ const SideNavbar = () => {
         <header className="overflow-y-auto h-1 flex flex-col flex-grow shadow-sm shadow-black">
           <ul>
             <li>
-              <Link to={"/dashboard"}>
-                <button className="btn__menu">
-                  <DashboardIcon clases={"mr-3 size-7"} />
-                  Dashboard
-                </button>
-              </Link>
+              <NavLink to={"/dashboard"}>
+                {({ isActive }) => {
+                  return isActive ? (
+                    <button className="btn__menu__active">
+                      <DashboardIcon clases={"mr-3 size-7"} />
+                      Dashboard
+                    </button>
+                  ) : (
+                    <button className="btn__menu">
+                      <DashboardIcon clases={"mr-3 size-7"} />
+                      Dashboard
+                    </button>
+                  );
+                }}
+              </NavLink>
             </li>
             <li>
-              <Link to={"/clientes"}>
-                <button className="btn__menu">
-                  <ClienteIcon clases={"mr-3 size-7"} />
-                  Clientes
-                </button>
-              </Link>
+              <NavLink to={"/clientes"}>
+                {({ isActive }) => {
+                  return isActive ? (
+                    <button className="btn__menu__active">
+                      <ClienteIcon clases={"mr-3 size-7"} />
+                      Clientes
+                    </button>
+                  ) : (
+                    <button className="btn__menu">
+                      <ClienteIcon clases={"mr-3 size-7"} />
+                      Clientes
+                    </button>
+                  );
+                }}
+              </NavLink>
             </li>
             <li>
               <DropDown
@@ -60,20 +78,38 @@ const SideNavbar = () => {
               />
             </li>
             <li>
-              <Link to={"/controlexistencias"}>
-                <button className="btn__menu">
-                  <ControlExistenciasIcon clases={"mr-3 size-7"} />
-                  Crontrol Existencias
-                </button>
-              </Link>
+              <NavLink to={"/controlexistencias"}>
+                {({ isActive }) => {
+                  return isActive ? (
+                    <button className="btn__menu__active">
+                      <ControlExistenciasIcon clases={"mr-3 size-7"} />
+                      Crontrol Existencias
+                    </button>
+                  ) : (
+                    <button className="btn__menu">
+                      <ControlExistenciasIcon clases={"mr-3 size-7"} />
+                      Crontrol Existencias
+                    </button>
+                  );
+                }}
+              </NavLink>
             </li>
             <li>
-              <Link to={"/reportes"}>
-                <button className="btn__menu">
-                  <ReportesIcon clases={"mr-3 size-7"} />
-                  Reportes
-                </button>
-              </Link>
+              <NavLink to={"/reportes"}>
+                {({ isActive }) => {
+                  return isActive ? (
+                    <button className="btn__menu__active">
+                      <ReportesIcon clases={"mr-3 size-7"} />
+                      Reportes
+                    </button>
+                  ) : (
+                    <button className="btn__menu">
+                      <ReportesIcon clases={"mr-3 size-7"} />
+                      Reportes
+                    </button>
+                  );
+                }}
+              </NavLink>
             </li>
           </ul>
         </header>
