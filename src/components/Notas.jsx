@@ -3,7 +3,7 @@ import AddIcon from '../assets/AddIcon'
 import SearchIcon from '../assets/SearchIcon'
 import ModalEliminarNota from './ModalEliminarNota'
 
-const Notas = ({ categorias }) => {
+const Notas = ({ categorias, categoriaSeleccionada }) => {
   const [selectedNota, setSelectedNota] = useState(null)
 
   return (
@@ -20,9 +20,11 @@ const Notas = ({ categorias }) => {
         />
         <section className='flex items-center justify-evenly mx-9'>
           <section className='flex flex-col'>
-            <span className='text-3xl font-semibold'>DevOps</span>
+            <span className='text-3xl font-semibold'>
+              {categoriaSeleccionada.nombre}
+            </span>
             <span className='text-lg text-gray-600 font-semibold'>
-              {categorias[0].notas.length} notas
+              {categoriaSeleccionada.notas.length} notas
             </span>
           </section>
           <button>
@@ -34,7 +36,7 @@ const Notas = ({ categorias }) => {
           <input type='text'></input>
         </section>
         <section className='overflow-y-auto h-1 flex flex-col flex-grow mt-2'>
-          {categorias[0].notas.map((nota, index) => {
+          {categoriaSeleccionada.notas.map((nota, index) => {
             return (
               <button
                 key={index}

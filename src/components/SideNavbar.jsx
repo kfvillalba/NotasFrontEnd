@@ -5,7 +5,7 @@ import AddIcon from '../assets/AddIcon'
 import ModalRegisterCategoria from './ModalRegisterCategoria'
 import ModalEliminarCategoria from './ModalEliminarCategoria'
 
-const SideNavbar = ({ categorias }) => {
+const SideNavbar = ({ categorias, setCategoriaSeleccionada }) => {
   const [formRegister, setformRegister] = useState(false)
   const [selectedCategoria, setSelectedCategoria] = useState(null)
   const Navigate = useNavigate()
@@ -36,7 +36,6 @@ const SideNavbar = ({ categorias }) => {
         }}
         categoriaNombre={selectedCategoria ? selectedCategoria.nombre : ''}
       />
-
       <section className='flex-wrap'>
         <header className='Profile flex flex-wrap items-center p-5'>
           <img
@@ -57,7 +56,7 @@ const SideNavbar = ({ categorias }) => {
                 className='btn__menu flex justify-between text-pretty pr-3 font-semibold'
                 onClick={() => setformRegister(true)}
               >
-                <span>Categorías</span>
+                <span>Agregar categoría</span>
                 <AddIcon clases={'size-8'} />
               </button>
             </li>
@@ -66,10 +65,7 @@ const SideNavbar = ({ categorias }) => {
                 <li key={index}>
                   <button
                     className='btn__menu flex justify-between text-pretty pr-3 font-semibold'
-                    onContextMenu={(e) => {
-                      e.preventDefault() // Evita que aparezca el menú contextual del navegador
-                      setSelectedCategoria(categoria)
-                    }}
+                    onClick={() => setCategoriaSeleccionada(categoria)}
                   >
                     <span>{categoria.nombre}</span>
                     <div className='bg-gray-500 size-7 rounded-full text-center text-white font-bold'>

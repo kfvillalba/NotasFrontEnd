@@ -41,13 +41,24 @@ const DashboardPage = () => {
       ],
     },
   ])
+
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(
+    categorias[0]
+  )
+
   return (
     <div className='flex w-screen h-screen'>
       <section className='w-1/6'>
-        <SideNavbar categorias={categorias} />
+        <SideNavbar
+          categorias={categorias}
+          setCategoriaSeleccionada={setCategoriaSeleccionada}
+        />
       </section>
       <section className='w-1/3 p-2 bg-slate-200'>
-        <Notas categorias={categorias} />
+        <Notas
+          categorias={categorias}
+          categoriaSeleccionada={categoriaSeleccionada}
+        />
       </section>
       <section className='w-1/2 p-2 bg-slate-100'>
         <NotasEdit />
