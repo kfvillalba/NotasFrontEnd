@@ -49,7 +49,7 @@ const SideNavbar = ({ categorias, setCategoriaSeleccionada }) => {
         </header>
       </section>
       <section className='h-full [&>footer>ul>li]:mx-3 [&>header>ul>li]:mx-3 flex flex-col relative'>
-        <header className='overflow-y-auto h-1 flex flex-col flex-grow  mt-2 '>
+        <header className='overflow-y-auto h-1 flex flex-col flex-grow mt-2 '>
           <ul>
             <li>
               <button
@@ -65,6 +65,10 @@ const SideNavbar = ({ categorias, setCategoriaSeleccionada }) => {
                 <li key={index}>
                   <button
                     className='btn__menu flex justify-between text-pretty pr-3 font-semibold'
+                    onContextMenu={(e) => {
+                      e.preventDefault() // Evita que aparezca el menú contextual del navegador
+                      setSelectedCategoria(categoria)
+                    }}
                     onClick={() => setCategoriaSeleccionada(categoria)}
                   >
                     <span>{categoria.nombre}</span>
