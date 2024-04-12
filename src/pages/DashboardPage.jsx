@@ -16,7 +16,7 @@ const DashboardPage = () => {
         {
           nombre: "Tarea2",
           descripcion:
-            "<p>h<strong>ola que tal amigos de youtube11111</strong></p>",
+            "hola que tal amigos de youtube22222323232saaaaaaaaaaaaaaaaaaaaa saaaaaaaaaaaaaaaaaaa aaaaaaaaaaaddddddddddddddd sadsadsdasd sadas das s dasd ",
           fecha: "2024-04-10",
         },
         {

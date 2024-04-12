@@ -2,13 +2,24 @@ import React, { useState } from "react";
 import AddIcon from "../assets/AddIcon";
 import SearchIcon from "../assets/SearchIcon";
 import ModalEliminarNota from "./ModalEliminarNota";
+import ModalRegisterCategoria from "./ModalRegisterCategoria";
 
 const Notas = ({ categoriaSeleccionada, setNotaSeleccionada }) => {
   const [selectedNota, setSelectedNota] = useState(null);
+  const [formRegister, setformRegister] = useState(false);
 
   return (
     <>
       <div className="flex flex-col h-full">
+        <ModalRegisterCategoria
+          open={formRegister}
+          onClose={() => {
+            setformRegister(false);
+          }}
+          registrar={(dataForm) => {
+            setData([...data, dataForm]);
+          }}
+        />
         <ModalEliminarNota
           open={!!selectedNota}
           onClose={() => setSelectedNota(null)}
@@ -27,7 +38,7 @@ const Notas = ({ categoriaSeleccionada, setNotaSeleccionada }) => {
               {categoriaSeleccionada.notas.length} notas
             </span>
           </section>
-          <button>
+          <button onClick={() => setformRegister(true)}>
             <AddIcon clases={"size-10"}></AddIcon>
           </button>
         </section>

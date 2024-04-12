@@ -65,9 +65,6 @@ const NotasEdit = ({ notaSeleccionada }) => {
             <button type="submit" variant="contained" className="bnt__primary">
               Guardar
             </button>
-            <button type="reset" variant="contained" className="bnt__danger">
-              Cancelar
-            </button>
           </footer>
         </section>
       </form>
