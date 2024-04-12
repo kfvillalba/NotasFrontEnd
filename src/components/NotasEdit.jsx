@@ -4,42 +4,44 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import EditorToolbar, { modules, formats } from "./EditorToolbar";
 
-const NotasEdit = () => {
+const NotasEdit = ({ notaSeleccionada }) => {
   const {
     register,
     handleSubmit,
-    watch,
-    setValue,
+    reset,
     formState: { errors },
   } = useForm();
 
-  useEffect(() => {
-    register("descripcion");
-  }, [register]);
+  const [descripcion, setDescripcion] = useState();
+  const [nombre, setNombre] = useState();
 
-  const ondescription = (editorState) => {
-    setValue("descripcion", editorState);
-  };
-  const editorContent = watch("descripcion");
+  useEffect(() => {
+    setDescripcion(() => notaSeleccionada.descripcion);
+    setNombre(() => notaSeleccionada.nombre);
+    reset();
+  }, [notaSeleccionada]);
 
   return (
     <>
       <form
         className=" object-cover h-full  relative flex flex-col"
         onSubmit={handleSubmit((data) => {
+          data.descripcion = descripcion;
           console.log(data);
         })}
       >
         <section className="h-full flex flex-col relative">
           <section className="flex flex-col">
-            <span className="text-gray-500 text-[.8rem]">25-03-2026</span>
+            <span className="text-gray-500 text-[.8rem]">
+              {notaSeleccionada.fecha}
+            </span>
             <input
               className="mb-3 text-3xl font-semibold bg-transparent border-none"
               type="text"
-              value={"DevOps"}
-              {...register("nombre", { required: "Campo Obligatorio" })}
-            />
-            <span>{errors?.text?.message}</span>
+              defaultValue={nombre}
+              {...register("nombre", { required: "Nombre Requerido" })}
+            ></input>
+            <span className="message">{errors?.nombre?.message}</span>
           </section>
           <EditorToolbar toolbarId={"t1"} />
           <header className="overflow-y-auto h-1 flex flex-col flex-grow  mt-2">
@@ -48,12 +50,13 @@ const NotasEdit = () => {
                 <ReactQuill
                   theme="snow"
                   name="descripcion"
-                  value={editorContent}
-                  onChange={ondescription}
+                  value={descripcion}
+                  onChange={setDescripcion}
                   placeholder={"Escribe la descripción aquí..."}
                   modules={modules("t1")}
                   formats={formats}
                 />
+                <span className="message">{errors?.descripcion?.message}</span>
               </div>
             </section>
           </header>
