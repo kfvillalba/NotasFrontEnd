@@ -41,9 +41,9 @@ const SideNavbar = ({
         categoriaNombre={selectedCategoria ? selectedCategoria.nombre : ""}
       />
       <section className="flex-wrap">
-        <header className="Profile flex flex-wrap items-center p-5">
+        <header className="Profile flex flex-wrap items-center mt-10 p-2">
           <img
-            className="rounded-full size-12"
+            className="rounded-full size-10"
             src={localStorage.getItem("photoURL")}
             alt="avatar"
           />
@@ -57,18 +57,18 @@ const SideNavbar = ({
           <ul>
             <li>
               <button
-                className="btn__menu flex justify-between text-pretty pr-3 font-semibold"
+                className="btn__menu flex justify-between mb-3 text-pretty font-bold"
                 onClick={() => setformRegister(true)}
               >
-                <span>Agregar categoría</span>
-                <AddIcon clases={"size-8"} />
+                <span>Categorías</span>
+                <AddIcon clases={"size-6"} />
               </button>
             </li>
             {categorias?.map((categoria, index) => {
               return (
                 <li key={index}>
                   <button
-                    className="btn__menu flex justify-between text-pretty pr-3 font-semibold"
+                    className="btn__menu flex justify-between my-4 text-pretty"
                     onContextMenu={(e) => {
                       e.preventDefault(); // Evita que aparezca el menú contextual del navegador
                       setSelectedCategoria(categoria);
@@ -79,7 +79,7 @@ const SideNavbar = ({
                     }}
                   >
                     <span>{categoria.nombre}</span>
-                    <div className="bg-gray-500 size-7 rounded-full text-center text-white font-bold">
+                    <div className=" bg-gray-500 flex items-center justify-center size-5 rounded-full text-center text-xs font-bold text-white">
                       {categoria.notas.length}
                     </div>
                   </button>

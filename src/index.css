@@ -21,7 +21,7 @@
   }
 
   .btn__menu {
-    @apply rounded-lg w-full [&>svg]:text-gray-500  [&>svg]:hover:text-white  py-2 my-1 hover:text-white pl-4 text-start;
+    @apply rounded-lg w-full [&>svg]:text-gray-500  [&>svg]:hover:text-white  my-1 hover:text-white text-start;
   }
   .bnt__primary {
     @apply rounded-lg w-fit text-white bg-purple-dark  hover:text-white hover:bg-purple-light p-2    text-center;

@@ -29,7 +29,7 @@ const Notas = ({ categoriaSeleccionada, setNotaSeleccionada }) => {
           }}
           notaNombre={selectedNota ? selectedNota.nombre : ""}
         />
-        <section className="flex items-center justify-evenly mx-9">
+        <section className="flex items-center justify-between mx-6">
           <section className="flex flex-col">
             <span className="text-3xl font-semibold">
               {categoriaSeleccionada.nombre}
@@ -38,13 +38,20 @@ const Notas = ({ categoriaSeleccionada, setNotaSeleccionada }) => {
               {categoriaSeleccionada.notas.length} notas
             </span>
           </section>
+
           <button onClick={() => setformRegister(true)}>
             <AddIcon clases={"size-10"}></AddIcon>
           </button>
         </section>
-        <section className="flex justify-center mt-2">
-          <SearchIcon clases={"size-10"}></SearchIcon>
-          <input type="text"></input>
+        <section className="flex justify-center relative mx-6">
+          <div className="absolute text-gray-500 inset-y-0 left-0 ml-2 flex items-center ">
+            <SearchIcon clases={"size-5 "}></SearchIcon>
+          </div>
+          <input
+            placeholder="Buscar Tarea"
+            className="p-1 w-full mt-0  rounded-full outline-none border pl-8 border-gray-500"
+            type="text"
+          ></input>
         </section>
         <section className="overflow-y-auto h-1 flex flex-col flex-grow mt-2">
           {categoriaSeleccionada.notas.map((nota, index) => {
