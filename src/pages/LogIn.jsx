@@ -44,12 +44,49 @@ const LogIn = () => {
     localStorage.setItem('photoURL', photoURL)
   }
 
-  const logIngEmailPassword = () => {
-    signInWithEmailAndPassword(auth, email, password).then((data) => {
-      setProvider(data.user.email)
-      obtenerUsuario(data.user.displayName, data.user.email)
-      console.log(localStorage)
-    })
+  const logIngEmailPassword = (email, password) => {
+    fetch(
+      `https://localhost:7045/api/Usuarios/Autenticacion?email=${email}&password=${password}`
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response.json()
+        } else {
+          throw new Error('Usuario o contraseña incorrectos')
+        }
+      })
+      .then((data) => {
+        setProvider(data.email)
+        obtenerUsuario(data.displayName, data.email)
+
+        // Envío del correo electrónico
+        fetch('https://localhost:7062/EnviarEmail', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            to: email, // Utilizamos el email del usuario que se está iniciando sesión
+            subject: 'Iniciaste sesión en la aplicación Notas',
+            body: 'Si no fuiste tu, cambia de inmediato tu clave.',
+            attachments: ['dfgdfg'],
+          }),
+        })
+          .then((response) => {
+            if (response.ok) {
+              console.log('Correo electrónico enviado con éxito')
+            } else {
+              throw new Error('Error al enviar el correo electrónico')
+            }
+          })
+          .catch((error) => {
+            console.error('Error al enviar el correo electrónico:', error)
+          })
+      })
+      .catch((error) => {
+        console.error('Error al autenticar usuario:', error)
+        // Aquí puedes mostrar un mensaje de error al usuario
+      })
   }
 
   const logIngGoogle = () => {
@@ -129,7 +166,11 @@ const LogIn = () => {
                 Continua con Facebook
               </p>
             </button>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form
+              onSubmit={handleSubmit((data) =>
+                logIngEmailPassword(data.email, data.password)
+              )}
+            >
               <p
                 tabIndex='0'
                 className='focus:outline-none text-sm mt-4 font-medium leading-none text-gray-500'
@@ -243,7 +284,6 @@ const LogIn = () => {
               <div className='mt-8'>
                 {/* <Link to={"/dashboard"}> */}
                 <button
-                  onClick={logIngEmailPassword}
                   role='button'
                   className='focus:ring-2 focus:ring-offset-2 focus:ring-gray-700 bg-gray-800 py-3 text-base font-medium rounded-lg w-full text-white'
                   type='submit'

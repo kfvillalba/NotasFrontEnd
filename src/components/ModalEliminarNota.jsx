@@ -1,21 +1,42 @@
 import React from 'react'
+import axios from 'axios'
+import Swal from 'sweetalert2'
 
-const ModalEliminarNota = ({ open, onClose, onDelete, notaNombre }) => {
+const ModalEliminarNota = ({ open, onClose, onDelete, titulo, notaId }) => {
   if (!open) {
     return null
+  }
+
+  const eliminarNota = async () => {
+    try {
+      await axios.delete(
+        `https://localhost:7009/api/Notas/Eliminar?id=${notaId}`
+      )
+      onDelete()
+      onClose()
+      Swal.fire({
+        icon: 'success',
+        title: 'Nota eliminada',
+        text: `La nota "${titulo}" ha sido eliminada correctamente.`,
+      })
+    } catch (error) {
+      console.error('Error al eliminar la nota:', error)
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Hubo un error al intentar eliminar la nota. Por favor, inténtalo nuevamente.',
+      })
+    }
   }
 
   return (
     <div className='fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50'>
       <div className='bg-white p-5 rounded'>
-        <p>{`¿Estás seguro de que quieres eliminar la nota "${notaNombre}"?`}</p>
+        <p>{`¿Estás seguro de que quieres eliminar la nota "${titulo}"?`}</p>
         <div className='flex justify-end mt-3'>
           <button
             className='mr-2 bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600'
-            onClick={() => {
-              onDelete()
-              onClose()
-            }}
+            onClick={eliminarNota}
           >
             Eliminar
           </button>

@@ -2,7 +2,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import Swal from 'sweetalert2'
 
-const ModalRegisterCategoria = ({ open, onClose, registrar }) => {
+const ModalRegisterNota = ({ open, onClose, registrar }) => {
   const {
     register,
     handleSubmit,
@@ -12,7 +12,7 @@ const ModalRegisterCategoria = ({ open, onClose, registrar }) => {
   const onSubmit = async (data) => {
     try {
       const response = await fetch(
-        'https://localhost:7009/api/Categorias/Agregar',
+        'https://localhost:7127/api/Categorias/Agregar',
         {
           method: 'POST',
           headers: {
@@ -28,19 +28,18 @@ const ModalRegisterCategoria = ({ open, onClose, registrar }) => {
         reset()
         Swal.fire({
           icon: 'success',
-          title: 'Categoria guardada',
-          text: `La categoría "${data.nombre}" ha sido guardada correctamente.`,
+          title: 'nota guardada',
           showConfirmButton: false,
           timer: 1500,
         })
       } else {
-        throw new Error('Error al guardar la categoría')
+        throw new Error('Error al guardar la nota')
       }
     } catch (error) {
       console.error(error)
       Swal.fire({
         icon: 'error',
-        title: 'Error al guardar la categoría',
+        title: 'Error al guardar la nota',
         text: error.message,
       })
     }
@@ -55,7 +54,7 @@ const ModalRegisterCategoria = ({ open, onClose, registrar }) => {
         >
           <div>
             <label htmlFor='nombre' className='label__form'>
-              Nombre de la categoria
+              Nombre de la nota
             </label>
             <input
               id='nombre'
@@ -70,6 +69,7 @@ const ModalRegisterCategoria = ({ open, onClose, registrar }) => {
             />
             <span className='message'>{errors?.nombre?.message}</span>
           </div>
+
           <div className='flex gap-4 justify-center'>
             <button type='submit' className='bnt__primary mt-3'>
               Aceptar
@@ -89,4 +89,4 @@ const ModalRegisterCategoria = ({ open, onClose, registrar }) => {
   )
 }
 
-export default ModalRegisterCategoria
+export default ModalRegisterNota
