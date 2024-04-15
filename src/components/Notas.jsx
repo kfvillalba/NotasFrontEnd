@@ -80,7 +80,7 @@ const Notas = ({ categoriaSeleccionada, setNotaSeleccionada }) => {
                   <span className='text-xl font-semibold'>{nota.titulo}</span>
                   <p
                     dangerouslySetInnerHTML={{ __html: nota.descripcion }}
-                    className='font-normal text-sm text-start text-gray-600 line-clamp-3'
+                    className='font-normal text-sm text-start text-gray-600 line-clamp-2'
                   ></p>
                 </button>
               )
