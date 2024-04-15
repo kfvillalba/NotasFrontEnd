@@ -31,6 +31,7 @@ const Notas = ({ categoriaSeleccionada, setNotaSeleccionada }) => {
           notaId={selectedNotaId}
           titulo={selectedNotaTitulo}
         />
+
         <section className='flex items-center justify-evenly mx-9'>
           <section className='flex flex-col'>
             <span className='text-3xl font-semibold'>
@@ -43,6 +44,7 @@ const Notas = ({ categoriaSeleccionada, setNotaSeleccionada }) => {
               notas
             </span>
           </section>
+
           <button onClick={() => setFormRegister(true)}>
             <AddIcon clases={'size-10'}></AddIcon>
           </button>
