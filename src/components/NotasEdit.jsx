@@ -74,7 +74,7 @@ const NotasEdit = ({ notaSeleccionada, categoriaSeleccionada }) => {
             </section>
           </header>
 
-          <footer className='flex justify-center gap-6 mt-5'>
+          <footer className='flex justify-center gap-6 mt-6'>
             <button type='submit' variant='contained' className='bnt__primary'>
               Guardar
             </button>
