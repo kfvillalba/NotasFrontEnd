@@ -82,7 +82,7 @@ const Notas = ({ categoriaSeleccionada, setNotaSeleccionada }) => {
             .map((nota, index) => (
               <button
                 key={index}
-                className='border border-gray-500 flex flex-col font-semibold px-2 bg-white rounded-lg mb-1'
+                className='border border-gray-500 flex flex-col font-semibold px-2 bg-white '
                 onContextMenu={(e) => {
                   e.preventDefault()
                   setSelectedNotaId(nota.id)
