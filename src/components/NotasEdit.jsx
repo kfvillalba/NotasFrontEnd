@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import EditorToolbar, { modules, formats } from './EditorToolbar'
+import Swal from 'sweetalert2'
 
 const NotasEdit = ({ notaSeleccionada, categoriaSeleccionada }) => {
   const {
@@ -26,6 +27,47 @@ const NotasEdit = ({ notaSeleccionada, categoriaSeleccionada }) => {
     }
   }, [notaSeleccionada, reset])
 
+  const editarNota = async (data) => {
+    const notaActualizada = {
+      id: notaSeleccionada.id,
+      titulo: data.nombre,
+      descripcion: descripcion,
+      idCategoria: notaSeleccionada.idCategoria,
+    }
+
+    console.log('Datos a enviar a la API:', notaActualizada)
+
+    try {
+      const response = await fetch(
+        `https://localhost:7009/api/Notas/Actualizar?id=${notaSeleccionada.id}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(notaActualizada),
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error('Error al editar la nota')
+      }
+
+      // Muestra la alerta de éxito con SweetAlert2
+      Swal.fire({
+        icon: 'success',
+        title: 'Nota editada correctamente',
+        showConfirmButton: false,
+        timer: 1500, // Muestra la alerta por 1.5 segundos
+      })
+
+      console.log('Nota editada exitosamente')
+    } catch (error) {
+      console.error('Error al editar la nota:', error.message)
+      // Puedes manejar el error aquí, como mostrar un mensaje de error al usuario
+    }
+  }
+
   if (
     !categoriaSeleccionada ||
     !categoriaSeleccionada.notas ||
@@ -38,28 +80,32 @@ const NotasEdit = ({ notaSeleccionada, categoriaSeleccionada }) => {
     <>
       <form
         className='object-cover h-full relative flex flex-col'
-        onSubmit={handleSubmit((data) => {
-          data.descripcion = descripcion
-          console.log(data)
-        })}
+        onSubmit={handleSubmit(editarNota)}
       >
         <section className='h-full flex flex-col relative'>
           <section className='flex flex-col'>
             <span className='text-gray-500 text-[.8rem]'>
-              {notaSeleccionada?.fecha || ''}
+              {notaSeleccionada &&
+                new Date(notaSeleccionada.fecha).toLocaleString('es-ES', {
+                  day: 'numeric',
+                  month: 'short',
+                  year: 'numeric',
+                  hour: 'numeric',
+                  minute: 'numeric',
+                })}
             </span>
             <input
               className='mb-3 text-3xl font-semibold bg-transparent border-none'
               type='text'
               defaultValue={titulo}
               {...register('nombre', { required: 'Nombre Requerido' })}
-            ></input>
+            />
             <span className='message'>{errors?.nombre?.message}</span>
           </section>
           <EditorToolbar toolbarId={'t1'} />
-          <header className='overflow-y-auto h-1 flex flex-col flex-grow  mt-2'>
+          <header className='overflow-y-auto h-1 flex flex-col flex-grow mt-2'>
             <section>
-              <div className='overflow-y-auto mt-1'>
+              <div className='overflow-y-auto mt-1 rounded-lg border border-gray-300'>
                 <ReactQuill
                   theme='snow'
                   name='descripcion'

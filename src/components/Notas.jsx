@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import AddIcon from '../assets/AddIcon'
 import SearchIcon from '../assets/SearchIcon'
 import ModalEliminarNota from './ModalEliminarNota'
@@ -8,6 +8,19 @@ const Notas = ({ categoriaSeleccionada, setNotaSeleccionada }) => {
   const [selectedNotaId, setSelectedNotaId] = useState(null)
   const [formRegister, setFormRegister] = useState(false)
   const [selectedNotaTitulo, setSelectedNotaTitulo] = useState('')
+  const [data, setData] = useState([])
+  const [searchText, setSearchText] = useState('')
+
+  useEffect(() => {
+    if (categoriaSeleccionada) {
+      setData(categoriaSeleccionada.notas || [])
+    }
+  }, [categoriaSeleccionada])
+
+  const agregarNota = (dataForm) => {
+    setData([...data, dataForm])
+    setFormRegister(false)
+  }
 
   return (
     <>
@@ -17,16 +30,19 @@ const Notas = ({ categoriaSeleccionada, setNotaSeleccionada }) => {
           onClose={() => {
             setFormRegister(false)
           }}
-          registrar={(dataForm) => {
-            setData([...data, dataForm])
-          }}
+          registrar={agregarNota}
+          categoriaId={categoriaSeleccionada ? categoriaSeleccionada.id : null}
         />
+
         <ModalEliminarNota
           open={!!selectedNotaId}
           onClose={() => setSelectedNotaId(null)}
           onDelete={() => {
-            // Aquí puedes eliminar la nota de tu lista y actualizar el estado de notas
-            setSelectedNotaId(null) // Cierra el modal después de eliminar la nota
+            const updatedData = data.filter(
+              (nota) => nota.id !== selectedNotaId
+            )
+            setData(updatedData)
+            setSelectedNotaId(null)
           }}
           notaId={selectedNotaId}
           titulo={selectedNotaTitulo}
@@ -38,10 +54,7 @@ const Notas = ({ categoriaSeleccionada, setNotaSeleccionada }) => {
               {categoriaSeleccionada ? categoriaSeleccionada.nombre : ''}
             </span>
             <span className='text-lg text-gray-600 font-semibold'>
-              {categoriaSeleccionada && categoriaSeleccionada.notas
-                ? categoriaSeleccionada.notas.length
-                : 0}{' '}
-              notas
+              {data.length} notas
             </span>
           </section>
 
@@ -55,36 +68,44 @@ const Notas = ({ categoriaSeleccionada, setNotaSeleccionada }) => {
           </div>
           <input
             placeholder='Buscar Tarea'
-            className='p-1 w-full mt-0  rounded-full outline-none border pl-8 border-gray-500'
+            className='p-1 w-full mt-0 rounded-full outline-none border pl-8 border-gray-500'
             type='text'
-          ></input>
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
         </section>
         <section className='overflow-y-auto h-1 flex flex-col flex-grow mt-2'>
-          {categoriaSeleccionada &&
-            categoriaSeleccionada.notas &&
-            categoriaSeleccionada.notas.map((nota, index) => {
-              return (
-                <button
-                  key={index}
-                  className='border border-gray-500 flex flex-col font-semibold px-2'
-                  onContextMenu={(e) => {
-                    e.preventDefault() // Evita que aparezca el menú contextual del navegador
-                    setSelectedNotaId(nota.id)
-                    setSelectedNotaTitulo(nota.titulo)
-                  }}
-                  onClick={() => setNotaSeleccionada(nota)}
-                >
-                  <span className='text-gray-500 text-[.8rem] self-end'>
-                    {nota.fecha}
-                  </span>
-                  <span className='text-xl font-semibold'>{nota.titulo}</span>
-                  <p
-                    dangerouslySetInnerHTML={{ __html: nota.descripcion }}
-                    className='font-normal text-sm text-start text-gray-600 line-clamp-2'
-                  ></p>
-                </button>
-              )
-            })}
+          {data
+            .filter((nota) =>
+              nota.titulo.toLowerCase().includes(searchText.toLowerCase())
+            )
+            .map((nota, index) => (
+              <button
+                key={index}
+                className='border border-gray-500 flex flex-col font-semibold px-2 bg-white rounded-lg mb-1'
+                onContextMenu={(e) => {
+                  e.preventDefault()
+                  setSelectedNotaId(nota.id)
+                  setSelectedNotaTitulo(nota.titulo)
+                }}
+                onClick={() => setNotaSeleccionada(nota)}
+              >
+                <span className='text-gray-500 text-[.8rem] self-end'>
+                  {new Date(nota.fecha).toLocaleString('es-ES', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric',
+                    hour: 'numeric',
+                    minute: 'numeric',
+                  })}
+                </span>
+                <span className='text-xl font-semibold'>{nota.titulo}</span>
+                <p
+                  dangerouslySetInnerHTML={{ __html: nota.descripcion }}
+                  className='font-normal text-sm text-start text-gray-600 line-clamp-1'
+                ></p>
+              </button>
+            ))}
         </section>
       </div>
     </>

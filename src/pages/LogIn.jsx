@@ -13,6 +13,7 @@ import { signInWithPopup, signInWithEmailAndPassword } from 'firebase/auth'
 import GoogleIcon from '../assets/GoogleIcon'
 import FacebookIcon from '../assets/FacebookIcon'
 import GithubIcon from '../assets/GithubIcon'
+import Swal from 'sweetalert2' // Importa SweetAlert2
 
 const LogIn = () => {
   const [provider, setProvider] = useState('')
@@ -67,7 +68,7 @@ const LogIn = () => {
           },
           body: JSON.stringify({
             to: email, // Utilizamos el email del usuario que se está iniciando sesión
-            subject: 'Iniciaste sesión en la aplicación Notas',
+            subject: 'Iniciaste sesión en la aplicación MyStock',
             body: 'Si no fuiste tu, cambia de inmediato tu clave.',
             attachments: ['dfgdfg'],
           }),
@@ -82,10 +83,22 @@ const LogIn = () => {
           .catch((error) => {
             console.error('Error al enviar el correo electrónico:', error)
           })
+
+        // Mostrar alerta de éxito
+        Swal.fire({
+          icon: 'success',
+          title: 'Inicio de sesión exitoso',
+          text: '¡Bienvenido!',
+        })
       })
       .catch((error) => {
         console.error('Error al autenticar usuario:', error)
-        // Aquí puedes mostrar un mensaje de error al usuario
+        // Mostrar alerta de error
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Usuario o contraseña incorrectos',
+        })
       })
   }
 

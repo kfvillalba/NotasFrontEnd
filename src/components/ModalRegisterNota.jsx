@@ -2,25 +2,27 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import Swal from 'sweetalert2'
 
-const ModalRegisterNota = ({ open, onClose, registrar }) => {
+const ModalRegisterNota = ({ open, onClose, registrar, categoriaId }) => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm()
+
   const onSubmit = async (data) => {
     try {
-      const response = await fetch(
-        'https://localhost:7127/api/Categorias/Agregar',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        }
-      )
+      // Agregar el ID de la categoría a los datos del formulario
+      data.descripcion = ''
+      data.idCategoria = categoriaId
+      console.log(data)
+      const response = await fetch('https://localhost:7009/api/Notas/Agregar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
 
       if (response.ok) {
         registrar(data)
@@ -28,7 +30,7 @@ const ModalRegisterNota = ({ open, onClose, registrar }) => {
         reset()
         Swal.fire({
           icon: 'success',
-          title: 'nota guardada',
+          title: 'Nota guardada',
           showConfirmButton: false,
           timer: 1500,
         })
@@ -45,6 +47,7 @@ const ModalRegisterNota = ({ open, onClose, registrar }) => {
     }
   }
   if (!open) return null
+
   return (
     <div className='fixed w-full top-0 left-0 h-full z-10 flex items-center justify-center bg-black/50'>
       <div className=''>
@@ -53,21 +56,21 @@ const ModalRegisterNota = ({ open, onClose, registrar }) => {
           onSubmit={handleSubmit(onSubmit)}
         >
           <div>
-            <label htmlFor='nombre' className='label__form'>
+            <label htmlFor='titulo' className='label__form'>
               Nombre de la nota
             </label>
             <input
-              id='nombre'
+              id='titulo'
               type='text'
               className='input__form'
-              {...register('nombre', {
+              {...register('titulo', {
                 required: {
                   value: true,
                   message: 'El nombre es obligatorio',
                 },
               })}
             />
-            <span className='message'>{errors?.nombre?.message}</span>
+            <span className='message'>{errors?.titulo?.message}</span>
           </div>
 
           <div className='flex gap-4 justify-center'>
@@ -76,7 +79,8 @@ const ModalRegisterNota = ({ open, onClose, registrar }) => {
             </button>
             <button
               onClick={() => {
-                reset(), onClose()
+                reset()
+                onClose()
               }}
               className='bnt__danger mt-3 '
             >
