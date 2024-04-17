@@ -1,29 +1,29 @@
-import React, { useState, useEffect } from 'react'
-import SideNavbar from '../components/SideNavbar'
-import Notas from '../components/Notas'
-import NotasEdit from '../components/NotasEdit'
+import React, { useState, useEffect } from "react";
+import SideNavbar from "../components/SideNavbar";
+import Notas from "../components/Notas";
+import NotasEdit from "../components/NotasEdit";
 
 const DashboardPage = () => {
-  const [categorias, setCategorias] = useState([])
-  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null)
-  const [notaSeleccionada, setNotaSeleccionada] = useState(null)
+  const [categorias, setCategorias] = useState([]);
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
+  const [notaSeleccionada, setNotaSeleccionada] = useState(null);
 
   useEffect(() => {
-    fetch('https://localhost:7009/api/Categorias/ConsultarTodo')
+    fetch("https://localhost:7009/api/Categorias/ConsultarTodo")
       .then((response) => response.json())
       .then((data) => {
-        setCategorias(data)
-        setCategoriaSeleccionada(data[0])
-        setNotaSeleccionada(data[0].notas[0])
+        setCategorias(data);
+        setCategoriaSeleccionada(data[0]);
+        setNotaSeleccionada(data[0].notas[0]);
       })
       .catch((error) => {
-        console.error('Error al obtener categorías y notas:', error)
-      })
-  }, [])
+        console.error("Error al obtener categorías y notas:", error);
+      });
+  }, [categorias]);
 
   return (
-    <div className='flex w-screen h-screen'>
-      <section className='w-1/6'>
+    <div className="flex w-screen h-screen">
+      <section className="w-1/6">
         <SideNavbar
           categorias={categorias}
           setCategoriaSeleccionada={setCategoriaSeleccionada}
@@ -31,21 +31,21 @@ const DashboardPage = () => {
           setData={setCategorias}
         />
       </section>
-      <section className='w-1/3 p-2 bg-slate-200'>
+      <section className="w-1/3 p-2 bg-slate-200">
         <Notas
           categorias={categorias}
           categoriaSeleccionada={categoriaSeleccionada}
           setNotaSeleccionada={setNotaSeleccionada}
         />
       </section>
-      <section className='w-1/2 p-2 bg-slate-100'>
+      <section className="w-1/2 p-2 bg-slate-100">
         <NotasEdit
           notaSeleccionada={notaSeleccionada}
           categoriaSeleccionada={categoriaSeleccionada}
         />
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default DashboardPage
+export default DashboardPage;
