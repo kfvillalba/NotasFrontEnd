@@ -9,7 +9,7 @@ const SideNavbar = ({
   categorias,
   setCategoriaSeleccionada,
   setNotaSeleccionada,
-  setData, // Función para actualizar el estado de las categorías
+  setData,
 }) => {
   const [formRegister, setformRegister] = useState(false)
   const [selectedCategoria, setSelectedCategoria] = useState(null)
@@ -23,6 +23,7 @@ const SideNavbar = ({
 
   const handleRegisterCategoria = (dataForm) => {
     setData([...categorias, dataForm])
+    setCategoriaSeleccionada(dataForm)
     setformRegister(false)
   }
 

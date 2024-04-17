@@ -13,13 +13,13 @@ const DashboardPage = () => {
       .then((response) => response.json())
       .then((data) => {
         setCategorias(data)
-        setCategoriaSeleccionada(data[0])
-        setNotaSeleccionada(data[0].notas[0])
+        // setCategoriaSeleccionada(data[0])
+        // setNotaSeleccionada(data[0].notas[0])
       })
       .catch((error) => {
         console.error('Error al obtener categorías y notas:', error)
       })
-  }, [])
+  }, [categorias])
 
   return (
     <div className='flex w-screen h-screen'>

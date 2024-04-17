@@ -19,7 +19,27 @@ const Notas = ({ categoriaSeleccionada, setNotaSeleccionada }) => {
 
   const agregarNota = (dataForm) => {
     setData([...data, dataForm])
+    setNotaSeleccionada(dataForm)
     setFormRegister(false)
+  }
+
+  const eliminarNota = (notaId) => {
+    const updatedData = data.filter((nota) => nota.id !== notaId)
+    setData(updatedData)
+
+    // Actualizar la selección de nota
+    setSelectedNotaId(null)
+    setSelectedNotaTitulo('')
+
+    // Seleccionar la primera nota después de la eliminación
+    if (updatedData.length > 0) {
+      setNotaSeleccionada(updatedData[0])
+      setSelectedNotaId(updatedData[0].id)
+      setSelectedNotaTitulo(updatedData[0].titulo)
+    } else {
+      // Si no quedan notas, deseleccionar la nota en la parte derecha
+      setNotaSeleccionada(null)
+    }
   }
 
   return (
@@ -37,13 +57,7 @@ const Notas = ({ categoriaSeleccionada, setNotaSeleccionada }) => {
         <ModalEliminarNota
           open={!!selectedNotaId}
           onClose={() => setSelectedNotaId(null)}
-          onDelete={() => {
-            const updatedData = data.filter(
-              (nota) => nota.id !== selectedNotaId
-            )
-            setData(updatedData)
-            setSelectedNotaId(null)
-          }}
+          onDelete={() => eliminarNota(selectedNotaId)}
           notaId={selectedNotaId}
           titulo={selectedNotaTitulo}
         />

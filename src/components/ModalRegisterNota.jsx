@@ -12,7 +12,6 @@ const ModalRegisterNota = ({ open, onClose, registrar, categoriaId }) => {
 
   const onSubmit = async (data) => {
     try {
-      // Agregar el ID de la categoría a los datos del formulario
       data.descripcion = ''
       data.idCategoria = categoriaId
       console.log(data)
@@ -31,7 +30,8 @@ const ModalRegisterNota = ({ open, onClose, registrar, categoriaId }) => {
         Swal.fire({
           icon: 'success',
           title: 'Nota guardada',
-          showConfirmButton: false,
+          text: 'Te invito a agregarle una descripción a la nota',
+          showConfirmButton: true,
           timer: 1500,
         })
       } else {
