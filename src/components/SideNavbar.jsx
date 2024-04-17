@@ -69,11 +69,16 @@ const SideNavbar = ({
           <ul>
             <li>
               <button
-                className='btn__menu flex justify-between text-pretty pr-3 font-semibold'
+                className='btn__menu pl-0 flex  justify-between text-pretty pr-3 font-semibold'
                 onClick={() => setformRegister(true)}
               >
-                <span>Categorias</span>
-                <AddIcon clases={'size-8'} />
+                <span className='border-l-4  pl-2 border-white'>
+                  Categorías
+                </span>
+                <div className='bg-gray-500 size-7 rounded-full text-center text-white font-bold flex justify-center items-center'>
+                  +
+                </div>
+                {/* <AddIcon clases={"size-8"} /> */}
               </button>
             </li>
             {categorias &&
@@ -82,7 +87,7 @@ const SideNavbar = ({
                 return (
                   <li key={index}>
                     <button
-                      className='btn__menu flex justify-between text-pretty pr-3 font-semibold'
+                      className='btn__menu flex justify-between pr-3 '
                       onContextMenu={(e) => {
                         e.preventDefault()
                         setSelectedCategoria(categoria)
@@ -96,7 +101,7 @@ const SideNavbar = ({
                       }}
                     >
                       <span>{categoria.nombre}</span>
-                      <div className='bg-gray-500 size-7 rounded-full text-center text-white font-bold'>
+                      <div className='bg-gray-500 size-7 rounded-full text-white font-semibold text-sm flex justify-center items-center'>
                         {categoria.notas ? categoria.notas.length : 0}
                       </div>
                     </button>
@@ -108,7 +113,7 @@ const SideNavbar = ({
         <footer className='my-1'>
           <ul>
             <li>
-              <button onClick={Logout} className='btn__menu'>
+              <button onClick={Logout} className='btn__menu  pl-10 mb-6'>
                 <LogOutIcon clases={'mr-3 size-7'} />
                 LogOut
               </button>

@@ -19,7 +19,7 @@ const DashboardPage = () => {
       .catch((error) => {
         console.error('Error al obtener categorías y notas:', error)
       })
-  }, [categorias])
+  }, [])
 
   return (
     <div className='flex w-screen h-screen'>

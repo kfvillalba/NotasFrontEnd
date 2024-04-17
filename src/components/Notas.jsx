@@ -19,27 +19,7 @@ const Notas = ({ categoriaSeleccionada, setNotaSeleccionada }) => {
 
   const agregarNota = (dataForm) => {
     setData([...data, dataForm])
-    setNotaSeleccionada(dataForm)
     setFormRegister(false)
-  }
-
-  const eliminarNota = (notaId) => {
-    const updatedData = data.filter((nota) => nota.id !== notaId)
-    setData(updatedData)
-
-    // Actualizar la selección de nota
-    setSelectedNotaId(null)
-    setSelectedNotaTitulo('')
-
-    // Seleccionar la primera nota después de la eliminación
-    if (updatedData.length > 0) {
-      setNotaSeleccionada(updatedData[0])
-      setSelectedNotaId(updatedData[0].id)
-      setSelectedNotaTitulo(updatedData[0].titulo)
-    } else {
-      // Si no quedan notas, deseleccionar la nota en la parte derecha
-      setNotaSeleccionada(null)
-    }
   }
 
   return (
@@ -57,12 +37,18 @@ const Notas = ({ categoriaSeleccionada, setNotaSeleccionada }) => {
         <ModalEliminarNota
           open={!!selectedNotaId}
           onClose={() => setSelectedNotaId(null)}
-          onDelete={() => eliminarNota(selectedNotaId)}
+          onDelete={() => {
+            const updatedData = data.filter(
+              (nota) => nota.id !== selectedNotaId
+            )
+            setData(updatedData)
+            setSelectedNotaId(null)
+          }}
           notaId={selectedNotaId}
           titulo={selectedNotaTitulo}
         />
 
-        <section className='flex items-center justify-evenly mx-9'>
+        <section className='flex items-center justify-between mx-9 '>
           <section className='flex flex-col'>
             <span className='text-3xl font-semibold'>
               {categoriaSeleccionada ? categoriaSeleccionada.nombre : ''}
@@ -73,7 +59,10 @@ const Notas = ({ categoriaSeleccionada, setNotaSeleccionada }) => {
           </section>
 
           <button onClick={() => setFormRegister(true)}>
-            <AddIcon clases={'size-10'}></AddIcon>
+            <div className='text-white w-12 flex justify-center items-center h-10 rounded-full font-bold bg-gray-500 pb-0.5'>
+              +
+            </div>
+            {/* <AddIcon clases={"size-10"}></AddIcon> */}
           </button>
         </section>
         <section className='flex justify-center relative mx-6'>
@@ -81,7 +70,7 @@ const Notas = ({ categoriaSeleccionada, setNotaSeleccionada }) => {
             <SearchIcon clases={'size-5 '}></SearchIcon>
           </div>
           <input
-            placeholder='Buscar Tarea'
+            placeholder='Buscar notas'
             className='p-1 w-full mt-0 rounded-full outline-none border pl-8 border-gray-500'
             type='text'
             value={searchText}
@@ -96,7 +85,7 @@ const Notas = ({ categoriaSeleccionada, setNotaSeleccionada }) => {
             .map((nota, index) => (
               <button
                 key={index}
-                className='border border-gray-500 flex flex-col font-semibold px-2 bg-white '
+                className='border focus:bg-gray-300 border-gray-500 flex flex-col font-semibold px-2 bg-white '
                 onContextMenu={(e) => {
                   e.preventDefault()
                   setSelectedNotaId(nota.id)
