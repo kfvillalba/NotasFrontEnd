@@ -21,6 +21,8 @@ const DashboardPage = () => {
       })
   }, [])
 
+  const [totalNotas, setTotalNotas] = useState(0)
+
   return (
     <div className='flex w-screen h-screen'>
       <section className='w-1/6'>

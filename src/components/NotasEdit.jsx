@@ -53,27 +53,25 @@ const NotasEdit = ({ notaSeleccionada, categoriaSeleccionada }) => {
         throw new Error('Error al editar la nota')
       }
 
-      // Muestra la alerta de éxito con SweetAlert2
       Swal.fire({
         icon: 'success',
         title: 'Nota editada correctamente',
         showConfirmButton: false,
-        timer: 1500, // Muestra la alerta por 1.5 segundos
+        timer: 1500,
       })
 
       console.log('Nota editada exitosamente')
     } catch (error) {
       console.error('Error al editar la nota:', error.message)
-      // Puedes manejar el error aquí, como mostrar un mensaje de error al usuario
     }
   }
 
-  if (
-    !categoriaSeleccionada ||
-    !categoriaSeleccionada.notas ||
-    categoriaSeleccionada.notas.length === 0
-  ) {
-    return null // No hay notas en la categoría seleccionada, no se muestra nada
+  if (!notaSeleccionada || categoriaSeleccionada.notas.length === 0) {
+    return (
+      <div className='flex items-center font-bold justify-center h-full'>
+        <p>NO HAY NOTAS</p>
+      </div>
+    )
   }
 
   return (

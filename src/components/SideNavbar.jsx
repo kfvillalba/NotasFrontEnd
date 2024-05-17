@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import LogOutIcon from '../assets/LogOutIcon'
-import AddIcon from '../assets/AddIcon'
 import ModalRegisterCategoria from './ModalRegisterCategoria'
 import ModalEliminarCategoria from './ModalEliminarCategoria'
 import { fetchNotas } from '../components/fetch'
@@ -23,6 +22,7 @@ const SideNavbar = ({
   }
 
   const handleRegisterCategoria = (dataForm) => {
+    setNotaSeleccionada(null) // Limpiar la nota seleccionada al crear una nueva categoría
     setData([...categorias, dataForm])
     setCategoriaSeleccionada(dataForm)
     setformRegister(false)

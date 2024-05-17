@@ -13,13 +13,36 @@ const Notas = ({ categoriaSeleccionada, setNotaSeleccionada }) => {
 
   useEffect(() => {
     if (categoriaSeleccionada) {
-      setData(categoriaSeleccionada.notas || [])
+      fetchNotasPorCategoria(categoriaSeleccionada.id)
     }
   }, [categoriaSeleccionada])
 
-  const agregarNota = (dataForm) => {
-    setData([...data, dataForm])
-    setFormRegister(false)
+  const fetchNotasPorCategoria = async (idCategoria) => {
+    try {
+      const response = await fetch(
+        `https://localhost:7001/notes-service/Notas/Filtrar/IdCategoria?idCategoria=${idCategoria}`
+      )
+      if (!response.ok) {
+        setData([])
+        return
+      }
+      const notasData = await response.json()
+      setData(notasData)
+    } catch (error) {
+      console.error('Error al obtener las notas:', error)
+    }
+  }
+
+  const agregarNota = async (dataForm) => {
+    try {
+      await fetchNotasPorCategoria(categoriaSeleccionada.id)
+      setFormRegister(false)
+
+      // Establecer la nota recién agregada como la nota seleccionada para su edición
+      setNotaSeleccionada(dataForm)
+    } catch (error) {
+      console.error('Error al agregar la nota:', error)
+    }
   }
 
   return (
@@ -62,7 +85,6 @@ const Notas = ({ categoriaSeleccionada, setNotaSeleccionada }) => {
             <div className='text-white w-12 flex justify-center items-center h-10 rounded-full font-bold bg-gray-500 pb-0.5'>
               +
             </div>
-            {/* <AddIcon clases={"size-10"}></AddIcon> */}
           </button>
         </section>
         <section className='flex justify-center relative mx-6'>
@@ -78,37 +100,38 @@ const Notas = ({ categoriaSeleccionada, setNotaSeleccionada }) => {
           />
         </section>
         <section className='overflow-y-auto h-1 flex flex-col flex-grow mt-2'>
-          {data
-            .filter((nota) =>
-              nota.titulo.toLowerCase().includes(searchText.toLowerCase())
-            )
-            .map((nota, index) => (
-              <button
-                key={index}
-                className='border focus:bg-gray-300 border-gray-500 flex flex-col font-semibold px-2 bg-white '
-                onContextMenu={(e) => {
-                  e.preventDefault()
-                  setSelectedNotaId(nota.id)
-                  setSelectedNotaTitulo(nota.titulo)
-                }}
-                onClick={() => setNotaSeleccionada(nota)}
-              >
-                <span className='text-gray-500 text-[.8rem] self-end'>
-                  {new Date(nota.fecha).toLocaleString('es-ES', {
-                    day: 'numeric',
-                    month: 'short',
-                    year: 'numeric',
-                    hour: 'numeric',
-                    minute: 'numeric',
-                  })}
-                </span>
-                <span className='text-xl font-semibold'>{nota.titulo}</span>
-                <p
-                  dangerouslySetInnerHTML={{ __html: nota.descripcion }}
-                  className='font-normal text-sm text-start text-gray-600 line-clamp-1'
-                ></p>
-              </button>
-            ))}
+          {data.length > 0 && // Verificar si hay datos antes de mapear
+            data
+              .filter((nota) =>
+                nota.titulo.toLowerCase().includes(searchText.toLowerCase())
+              )
+              .map((nota, index) => (
+                <button
+                  key={index}
+                  className='border focus:bg-gray-300 border-gray-500 flex flex-col font-semibold px-2 bg-white '
+                  onContextMenu={(e) => {
+                    e.preventDefault()
+                    setSelectedNotaId(nota.id)
+                    setSelectedNotaTitulo(nota.titulo)
+                  }}
+                  onClick={() => setNotaSeleccionada(nota)}
+                >
+                  <span className='text-gray-500 text-[.8rem] self-end'>
+                    {new Date(nota.fecha).toLocaleString('es-ES', {
+                      day: 'numeric',
+                      month: 'short',
+                      year: 'numeric',
+                      hour: 'numeric',
+                      minute: 'numeric',
+                    })}
+                  </span>
+                  <span className='text-xl font-semibold'>{nota.titulo}</span>
+                  <p
+                    dangerouslySetInnerHTML={{ __html: nota.descripcion }}
+                    className='font-normal text-sm text-start text-gray-600 line-clamp-1'
+                  ></p>
+                </button>
+              ))}
         </section>
       </div>
     </>
