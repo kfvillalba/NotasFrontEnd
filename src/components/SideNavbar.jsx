@@ -4,6 +4,7 @@ import LogOutIcon from '../assets/LogOutIcon'
 import AddIcon from '../assets/AddIcon'
 import ModalRegisterCategoria from './ModalRegisterCategoria'
 import ModalEliminarCategoria from './ModalEliminarCategoria'
+import { fetchNotas } from '../components/fetch'
 
 const SideNavbar = ({
   categorias,
@@ -33,6 +34,7 @@ const SideNavbar = ({
         open={formRegister}
         onClose={() => {
           setformRegister(false)
+          fetchNotas().then((notas) => setData(notas))
         }}
         registrar={handleRegisterCategoria}
       />
@@ -40,13 +42,17 @@ const SideNavbar = ({
         open={!!selectedCategoria}
         onClose={() => setSelectedCategoria(null)}
         onDelete={() => {
-          // Aquí puedes eliminar la categoría de tu lista y actualizar el estado de categorías
+          fetchNotas().then((data) => {
+            setData(data)
+            setCategoriaSeleccionada(data[0])
+            setNotaSeleccionada(data[0].notas[0])
+          })
           setData(
             categorias.filter(
               (categoria) => categoria.id !== selectedCategoria.id
             )
           )
-          setSelectedCategoria(null) // Cierra el modal después de eliminar la categoría
+          setSelectedCategoria(null)
         }}
         categoriaNombre={selectedCategoria ? selectedCategoria.nombre : ''}
         categoriaId={selectedCategoria ? selectedCategoria.id : ''}
@@ -78,7 +84,6 @@ const SideNavbar = ({
                 <div className='bg-gray-500 size-7 rounded-full text-center text-white font-bold flex justify-center items-center'>
                   +
                 </div>
-                {/* <AddIcon clases={"size-8"} /> */}
               </button>
             </li>
             {categorias &&
@@ -94,7 +99,6 @@ const SideNavbar = ({
                       }}
                       onClick={() => {
                         setCategoriaSeleccionada(categoria)
-                        // Verificar si categoria.notas existe y tiene longitud mayor a cero
                         if (categoria.notas && categoria.notas.length > 0) {
                           setNotaSeleccionada(categoria.notas[0])
                         }

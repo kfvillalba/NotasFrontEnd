@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import SideNavbar from '../components/SideNavbar'
 import Notas from '../components/Notas'
 import NotasEdit from '../components/NotasEdit'
+import { fetchNotas } from '../components/fetch'
 
 const DashboardPage = () => {
   const [categorias, setCategorias] = useState([])
@@ -9,12 +10,11 @@ const DashboardPage = () => {
   const [notaSeleccionada, setNotaSeleccionada] = useState(null)
 
   useEffect(() => {
-    fetch('https://localhost:7009/api/Categorias/ConsultarTodo')
-      .then((response) => response.json())
+    fetchNotas()
       .then((data) => {
         setCategorias(data)
-        // setCategoriaSeleccionada(data[0])
-        // setNotaSeleccionada(data[0].notas[0])
+        setCategoriaSeleccionada(data[0])
+        setNotaSeleccionada(data[0].notas[0])
       })
       .catch((error) => {
         console.error('Error al obtener categorías y notas:', error)
