@@ -5,7 +5,7 @@ import 'react-quill/dist/quill.snow.css'
 import EditorToolbar, { modules, formats } from './EditorToolbar'
 import Swal from 'sweetalert2'
 
-const NotasEdit = ({ notaSeleccionada, categoriaSeleccionada }) => {
+const NotasEdit = ({ categoriaSeleccionada, notaSeleccionada }) => {
   const {
     register,
     handleSubmit,
@@ -39,7 +39,7 @@ const NotasEdit = ({ notaSeleccionada, categoriaSeleccionada }) => {
 
     try {
       const response = await fetch(
-        `https://localhost:7009/api/Notas/Actualizar?id=${notaSeleccionada.id}`,
+        `http://localhost:5272/notes-service/Notas/Actualizar?id=${notaSeleccionada.id}`,
         {
           method: 'PUT',
           headers: {
@@ -66,10 +66,10 @@ const NotasEdit = ({ notaSeleccionada, categoriaSeleccionada }) => {
     }
   }
 
-  if (!notaSeleccionada || categoriaSeleccionada.notas.length === 0) {
+  if (!notaSeleccionada) {
     return (
       <div className='flex items-center font-bold justify-center h-full'>
-        <p>NO HAY NOTAS</p>
+        No hay nota seleccionada.
       </div>
     )
   }

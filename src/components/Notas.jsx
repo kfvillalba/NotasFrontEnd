@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import AddIcon from '../assets/AddIcon'
 import SearchIcon from '../assets/SearchIcon'
 import ModalEliminarNota from './ModalEliminarNota'
 import ModalRegisterNota from './ModalRegisterNota'
@@ -20,7 +19,7 @@ const Notas = ({ categoriaSeleccionada, setNotaSeleccionada }) => {
   const fetchNotasPorCategoria = async (idCategoria) => {
     try {
       const response = await fetch(
-        `https://localhost:7001/notes-service/Notas/Filtrar/IdCategoria?idCategoria=${idCategoria}`
+        `http://localhost:5272/notes-service/Notas/Filtrar/IdCategoria?idCategoria=${idCategoria}`
       )
       if (!response.ok) {
         setData([])
@@ -37,9 +36,8 @@ const Notas = ({ categoriaSeleccionada, setNotaSeleccionada }) => {
     try {
       await fetchNotasPorCategoria(categoriaSeleccionada.id)
       setFormRegister(false)
-
-      // Establecer la nota recién agregada como la nota seleccionada para su edición
-      setNotaSeleccionada(dataForm)
+      const nuevaNota = data.find((nota) => nota.titulo === dataForm.nombre)
+      setNotaSeleccionada(nuevaNota)
     } catch (error) {
       console.error('Error al agregar la nota:', error)
     }
@@ -47,31 +45,31 @@ const Notas = ({ categoriaSeleccionada, setNotaSeleccionada }) => {
 
   return (
     <>
+      <ModalRegisterNota
+        open={formRegister}
+        onClose={() => {
+          setFormRegister(false)
+        }}
+        registrar={agregarNota}
+        categoriaId={categoriaSeleccionada ? categoriaSeleccionada.id : null}
+      />
+
+      <ModalEliminarNota
+        open={!!selectedNotaId}
+        onClose={() => setSelectedNotaId(null)}
+        onDelete={() => {
+          const updatedData = data.filter((nota) => nota.id !== selectedNotaId)
+          setData(updatedData)
+          setSelectedNotaId(null)
+          if (updatedData.length > 0) {
+            setNotaSeleccionada(updatedData[0])
+          }
+        }}
+        notaId={selectedNotaId}
+        titulo={selectedNotaTitulo}
+      />
       <div className='flex flex-col h-full'>
-        <ModalRegisterNota
-          open={formRegister}
-          onClose={() => {
-            setFormRegister(false)
-          }}
-          registrar={agregarNota}
-          categoriaId={categoriaSeleccionada ? categoriaSeleccionada.id : null}
-        />
-
-        <ModalEliminarNota
-          open={!!selectedNotaId}
-          onClose={() => setSelectedNotaId(null)}
-          onDelete={() => {
-            const updatedData = data.filter(
-              (nota) => nota.id !== selectedNotaId
-            )
-            setData(updatedData)
-            setSelectedNotaId(null)
-          }}
-          notaId={selectedNotaId}
-          titulo={selectedNotaTitulo}
-        />
-
-        <section className='flex items-center justify-between mx-9 '>
+        <section className='flex items-center justify-between mx-9'>
           <section className='flex flex-col'>
             <span className='text-3xl font-semibold'>
               {categoriaSeleccionada ? categoriaSeleccionada.nombre : ''}
@@ -87,25 +85,27 @@ const Notas = ({ categoriaSeleccionada, setNotaSeleccionada }) => {
             </div>
           </button>
         </section>
-        <section className='flex justify-center relative mx-6'>
-          <div className='absolute text-gray-500 inset-y-0 left-0 ml-2 flex items-center '>
-            <SearchIcon clases={'size-5 '}></SearchIcon>
+
+        {data.length === 0 ? (
+          <div className='flex items-center font-bold justify-center h-full'>
+            <p>No hay notas</p>
           </div>
-          <input
-            placeholder='Buscar notas'
-            className='p-1 w-full mt-0 rounded-full outline-none border pl-8 border-gray-500'
-            type='text'
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-          />
-        </section>
-        <section className='overflow-y-auto h-1 flex flex-col flex-grow mt-2'>
-          {data.length > 0 && // Verificar si hay datos antes de mapear
-            data
-              .filter((nota) =>
-                nota.titulo.toLowerCase().includes(searchText.toLowerCase())
-              )
-              .map((nota, index) => (
+        ) : (
+          <>
+            <section className='flex justify-center relative mx-6'>
+              <div className='absolute text-gray-500 inset-y-0 left-0 ml-2 flex items-center '>
+                <SearchIcon clases={'size-5 '}></SearchIcon>
+              </div>
+              <input
+                placeholder='Buscar notas'
+                className='p-1 w-full mt-0 rounded-full outline-none border pl-8 border-gray-500'
+                type='text'
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+              />
+            </section>
+            <section className='overflow-y-auto h-1 flex flex-col flex-grow mt-2'>
+              {data.map((nota, index) => (
                 <button
                   key={index}
                   className='border focus:bg-gray-300 border-gray-500 flex flex-col font-semibold px-2 bg-white '
@@ -132,7 +132,9 @@ const Notas = ({ categoriaSeleccionada, setNotaSeleccionada }) => {
                   ></p>
                 </button>
               ))}
-        </section>
+            </section>
+          </>
+        )}
       </div>
     </>
   )

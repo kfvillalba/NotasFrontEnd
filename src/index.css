@@ -57,18 +57,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #a9a9a9; /* Cambiado de "gray.400" */
+    color: #a9a9a9;
     padding: 0.5rem;
     font-weight: bold;
-    font-size: 0.75rem; /* Cambiado de "xs" */
+    font-size: 0.75rem;
     text-transform: uppercase;
     text-align: center;
   }
 
   .td > input {
-    margin: 0.25rem; /* Cambiado de "m" */
+    margin: 0.25rem;
     padding: 0.2rem;
-    background: transparent; /* Cambiado de "bg" */
+    background: transparent;
     max-width: 100%;
   }
 }

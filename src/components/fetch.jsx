@@ -1,8 +1,19 @@
 export const fetchNotas = async () => {
+  const email = localStorage.getItem('email')
+  if (!email) {
+    throw new Error('No email found in localStorage')
+  }
   const response = await fetch(
-    'https://localhost:7001/notes-service/Categorias/ConsultarTodo'
+    'http://localhost:5272/notes-service/Categorias/ConsultarTodo'
   )
-  return await response.json()
+  if (!response.ok) {
+    throw new Error('Network response was not ok')
+  }
+  const categorias = await response.json()
+  const filteredCategorias = categorias.filter(
+    (categoria) => categoria.email === email
+  )
+  return filteredCategorias
 }
 
 export default fetchNotas

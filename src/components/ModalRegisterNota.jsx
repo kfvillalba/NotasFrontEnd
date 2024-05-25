@@ -15,13 +15,16 @@ const ModalRegisterNota = ({ open, onClose, registrar, categoriaId }) => {
       data.descripcion = ''
       data.idCategoria = categoriaId
       console.log(data)
-      const response = await fetch('https://localhost:7009/api/Notas/Agregar', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
+      const response = await fetch(
+        'http://localhost:5272/notes-service/Notas/Agregar',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        }
+      )
 
       if (response.ok) {
         registrar(data)
@@ -31,8 +34,8 @@ const ModalRegisterNota = ({ open, onClose, registrar, categoriaId }) => {
           icon: 'success',
           title: 'Nota guardada',
           text: 'Te invito a agregarle una descripción a la nota',
-          showConfirmButton: true,
-          timer: 1500,
+          showConfirmButton: false,
+          timer: 1000,
         })
       } else {
         throw new Error('Error al guardar la nota')

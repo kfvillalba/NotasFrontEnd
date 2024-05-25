@@ -15,7 +15,7 @@ const ModalEliminarCategoria = ({
   const eliminarCategoria = async () => {
     try {
       await axios.delete(
-        `https://localhost:7009/api/Categorias/Eliminar?id=${categoriaId}`
+        `http://localhost:5272/notes-service/Categorias/Eliminar?id=${categoriaId}`
       )
       onDelete()
       onClose()
@@ -23,6 +23,8 @@ const ModalEliminarCategoria = ({
         icon: 'success',
         title: 'Categoria eliminada',
         text: `La categoría "${categoriaNombre}" ha sido eliminada correctamente.`,
+        showConfirmButton: false,
+        timer: 1000,
       })
     } catch (error) {
       console.error('Error al eliminar la categoría:', error)

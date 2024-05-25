@@ -10,7 +10,7 @@ const ModalEliminarNota = ({ open, onClose, onDelete, titulo, notaId }) => {
   const eliminarNota = async () => {
     try {
       await axios.delete(
-        `https://localhost:7009/api/Notas/Eliminar?id=${notaId}`
+        `http://localhost:5272/notes-service/Notas/Eliminar?id=${notaId}`
       )
       onDelete()
       onClose()
@@ -18,6 +18,8 @@ const ModalEliminarNota = ({ open, onClose, onDelete, titulo, notaId }) => {
         icon: 'success',
         title: 'Nota eliminada',
         text: `La nota "${titulo}" ha sido eliminada correctamente.`,
+        showConfirmButton: false,
+        timer: 1000,
       })
     } catch (error) {
       console.error('Error al eliminar la nota:', error)

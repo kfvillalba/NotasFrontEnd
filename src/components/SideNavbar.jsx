@@ -21,11 +21,23 @@ const SideNavbar = ({
     Navigate('/login')
   }
 
-  const handleRegisterCategoria = (dataForm) => {
-    setNotaSeleccionada(null) // Limpiar la nota seleccionada al crear una nueva categoría
-    setData([...categorias, dataForm])
-    setCategoriaSeleccionada(dataForm)
-    setformRegister(false)
+  const handleRegisterCategoria = async (dataForm) => {
+    try {
+      setNotaSeleccionada(null)
+      const response = await fetchNotas()
+      const newCategoria = response.find(
+        (cat) => cat.nombre === dataForm.nombre
+      )
+
+      if (newCategoria) {
+        setCategoriaSeleccionada(newCategoria)
+        setData([...categorias, newCategoria])
+      }
+    } catch (error) {
+      console.error('Error al registrar la categoría:', error)
+    } finally {
+      setFormRegister(false)
+    }
   }
 
   return (
@@ -99,6 +111,7 @@ const SideNavbar = ({
                       }}
                       onClick={() => {
                         setCategoriaSeleccionada(categoria)
+                        setNotaSeleccionada(categoria.notas[0] || null)
                         if (categoria.notas && categoria.notas.length > 0) {
                           setNotaSeleccionada(categoria.notas[0])
                         }

@@ -17,7 +17,7 @@ const RegisterForm = ({ handleShowAuthForm }) => {
   const [registroExitoso, setRegistroExitoso] = useState(false)
 
   const checkUserExists = async (email, password) => {
-    const url = `https://localhost:7217/api/Usuarios/Autenticacion?email=${encodeURIComponent(
+    const url = `http://localhost:5272/authetication-service/Usuarios/Autenticacion?email=${encodeURIComponent(
       email
     )}&password=${encodeURIComponent(password)}`
 
@@ -34,10 +34,9 @@ const RegisterForm = ({ handleShowAuthForm }) => {
     const userExists = await checkUserExists(email, password)
 
     if (!userExists) {
-      // El usuario no está registrado, procedemos con el registro
       console.log('Usuario no registrado, procediendo con el registro')
       const registerResponse = await fetch(
-        'http://localhost:5155/authetication-service/Usuarios/Agregar',
+        'http://localhost:5272/authetication-service/Usuarios/Agregar',
         {
           method: 'POST',
           headers: {
@@ -47,7 +46,6 @@ const RegisterForm = ({ handleShowAuthForm }) => {
         }
       )
       if (registerResponse.ok) {
-        // Registro exitoso
         console.log('Usuario registrado exitosamente')
         setRegistroExitoso(true)
         Swal.fire({
@@ -63,7 +61,6 @@ const RegisterForm = ({ handleShowAuthForm }) => {
           }, 1000)
         })
       } else {
-        // Error al registrar usuario en la API
         console.error('Error al registrar usuario en la API')
         setError('general', {
           type: 'manual',
@@ -79,7 +76,6 @@ const RegisterForm = ({ handleShowAuthForm }) => {
         reset()
       }
     } else {
-      // El usuario ya está registrado
       console.log('El usuario ya está registrado')
       setError('general', {
         type: 'manual',
@@ -209,7 +205,6 @@ const RegisterForm = ({ handleShowAuthForm }) => {
               </label>
               <div className='relative flex items-center justify-center'>
                 <input
-                  //id="password"
                   type='password'
                   placeholder='Confirmar contraseña'
                   className='bg-gray-200 border rounded text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2'
@@ -230,9 +225,7 @@ const RegisterForm = ({ handleShowAuthForm }) => {
                     viewBox='0 0 16 16'
                     fill='none'
                     xmlns='http://www.w3.org/2000/svg'
-                  >
-                    {/* Icono de visibilidad de contraseña */}
-                  </svg>
+                  ></svg>
                 </div>
               </div>
               {errors.confirmpassword && (

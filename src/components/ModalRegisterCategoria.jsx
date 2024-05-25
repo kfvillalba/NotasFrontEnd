@@ -9,16 +9,21 @@ const ModalRegisterCategoria = ({ open, onClose, registrar }) => {
     reset,
     formState: { errors },
   } = useForm()
+
   const onSubmit = async (data) => {
     try {
+      const email = localStorage.getItem('email')
+
+      const payload = { ...data, email }
+
       const response = await fetch(
-        'https://localhost:7009/api/Categorias/Agregar',
+        'http://localhost:5272/notes-service/Categorias/Agregar',
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify(payload),
         }
       )
 
@@ -31,7 +36,7 @@ const ModalRegisterCategoria = ({ open, onClose, registrar }) => {
           title: 'Categoria guardada',
           text: `La categoría "${data.nombre}" ha sido guardada correctamente.`,
           showConfirmButton: false,
-          timer: 1500,
+          timer: 1000,
         })
       } else {
         throw new Error('Error al guardar la categoría')
@@ -45,7 +50,9 @@ const ModalRegisterCategoria = ({ open, onClose, registrar }) => {
       })
     }
   }
+
   if (!open) return null
+
   return (
     <div className='fixed w-full top-0 left-0 h-full z-10 flex items-center justify-center bg-black/50'>
       <div className=''>
